@@ -1,0 +1,19 @@
+# Môi trường ảo
+venv/
+env/
+
+# Biến môi trường & API Keys
+.env
+
+# Cache của Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Files của hệ điều hành
+.DS_Store
+Thumbs.db
+
+# Database cục bộ (Nếu bạn dùng SQLite thì nên bỏ qua, nếu dùng MySQL thì không sao)
+*.sqlite3

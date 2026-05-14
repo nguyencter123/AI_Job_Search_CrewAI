@@ -1,0 +1,452 @@
+[
+    {
+        "id": "JOB_001",
+        "title": "Senior Backend Developer (Java/Spring Boot)",
+        "company": "FinTech Global VN",
+        "location": "Hà Nội",
+        "salary": "30,000,000 - 45,000,000 VNĐ",
+        "short_desc": "Phát triển hệ thống thanh toán cốt lõi chịu tải cao cho ứng dụng ngân hàng số.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Xây dựng và tối ưu các API cho hệ thống giao dịch tài chính.\n- Làm việc với Microservices, Kafka, Redis, PostgreSQL.\n- Tham gia thiết kế kiến trúc và review code cho các thành viên Junior.\nYÊU CẦU:\n- Hơn 3 năm kinh nghiệm với Java và Spring Boot.\n- Hiểu biết sâu về tối ưu hiệu năng database.\nQUYỀN LỢI:\n- Lương tháng 13, 14.\n- Bảo hiểm sức khỏe quốc tế."
+    },
+    {
+        "id": "JOB_002",
+        "title": "UI/UX Designer (Product)",
+        "company": "Creative Solutions App",
+        "location": "Hồ Chí Minh",
+        "salary": "15,000,000 - 25,000,000 VNĐ",
+        "short_desc": "Thiết kế trải nghiệm người dùng và giao diện cho sản phẩm SaaS.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Thiết kế wireframe, prototype và UI hoàn chỉnh trên Figma.\n- Phối hợp với team BA và Dev để đảm bảo tính khả thi của thiết kế.\n- Thực hiện A/B testing để cải thiện tỷ lệ chuyển đổi.\nYÊU CẦU:\n- Ít nhất 2 năm kinh nghiệm UI/UX cho Web/App.\n- Có tư duy Product, am hiểu Design System.\nQUYỀN LỢI:\n- Môi trường làm việc mở, cấp Macbook Pro."
+    },
+    {
+        "id": "JOB_003",
+        "title": "Marketing Manager",
+        "company": "E-commerce Hub",
+        "location": "Đà Nẵng",
+        "salary": "25,000,000 - 40,000,000 VNĐ",
+        "short_desc": "Lãnh đạo đội ngũ Marketing, xây dựng chiến lược phát triển thương hiệu.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Lên kế hoạch và thực thi các chiến dịch Digital Marketing tổng thể.\n- Quản lý ngân sách quảng cáo (Facebook, Google, TikTok).\n- Phân tích chỉ số ROI, CPA và tối ưu hóa phễu chuyển đổi.\nYÊU CẦU:\n- 4+ năm kinh nghiệm trong ngành E-commerce.\n- Kỹ năng lãnh đạo và quản lý team từ 5-10 người.\nQUYỀN LỢI:\n- Thưởng KPI hàng quý cực kỳ hấp dẫn."
+    },
+    {
+        "id": "JOB_004",
+        "title": "Data Engineer (AWS/Snowflake)",
+        "company": "DataTech Analytics",
+        "location": "Remote",
+        "salary": "1,500 - 2,500 USD",
+        "short_desc": "Xây dựng Data Pipeline và Data Warehouse cho khối lượng dữ liệu lớn.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Xây dựng các ETL pipeline tự động dùng Python và Airflow.\n- Quản lý và tối ưu hóa kho dữ liệu Snowflake trên nền tảng AWS.\nYÊU CẦU:\n- Thành thạo Python, SQL nâng cao.\n- Có chứng chỉ AWS hoặc kinh nghiệm thực chiến với Cloud Data.\nQUYỀN LỢI:\n- Làm việc remote 100%, thời gian linh hoạt."
+    },
+    {
+        "id": "JOB_005",
+        "title": "Chuyên viên Tuyển dụng (Talent Acquisition)",
+        "company": "VNG Tech",
+        "location": "Hồ Chí Minh",
+        "salary": "12,000,000 - 18,000,000 VNĐ",
+        "short_desc": "Tìm kiếm và thu hút nhân tài mảng IT cho công ty.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Đăng tuyển, sàng lọc hồ sơ, và phỏng vấn ứng viên các vị trí Tech/Non-Tech.\n- Xây dựng thương hiệu nhà tuyển dụng (Employer Branding).\nYÊU CẦU:\n- Ít nhất 1 năm kinh nghiệm tuyển dụng IT.\n- Giao tiếp tốt, năng động, am hiểu thị trường nhân sự công nghệ.\nQUYỀN LỢI:\n- Hoa hồng tuyển dụng theo vị trí (đến 5tr/vị trí)."
+    },
+    {
+        "id": "JOB_006",
+        "title": "Kế toán trưởng (Chief Accountant)",
+        "company": "BĐS Group VN",
+        "location": "Hà Nội",
+        "salary": "30,000,000 - 50,000,000 VNĐ",
+        "short_desc": "Quản lý toàn bộ hoạt động tài chính, kế toán của tập đoàn.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Lập báo cáo tài chính, báo cáo quản trị định kỳ.\n- Làm việc trực tiếp với cơ quan thuế và kiểm toán độc lập.\n- Xây dựng quy trình kiểm soát nội bộ và quản trị rủi ro tài chính.\nYÊU CẦU:\n- Có chứng chỉ Kế toán trưởng, hiểu rõ luật thuế VN.\n- Tối thiểu 5 năm kinh nghiệm ở vị trí tương đương.\nQUYỀN LỢI:\n- Cổ phần công ty, xe đưa đón."
+    },
+    {
+        "id": "JOB_007",
+        "title": "B2B Sales Executive",
+        "company": "SaaS Solutions VN",
+        "location": "Đà Nẵng",
+        "salary": "8,000,000 + Hoa hồng (Up to 30M)",
+        "short_desc": "Tìm kiếm khách hàng doanh nghiệp và tư vấn phần mềm quản trị ERP.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Telesales, email marketing tiếp cận các khách hàng doanh nghiệp (B2B).\n- Trình bày giải pháp (Demo), đàm phán và chốt hợp đồng phần mềm.\nYÊU CẦU:\n- Ưu tiên ứng viên có kinh nghiệm sales phần mềm.\n- Kỹ năng giao tiếp và thuyết phục xuất sắc.\nQUYỀN LỢI:\n- Hoa hồng không giới hạn, hỗ trợ chi phí tiếp khách."
+    },
+    {
+        "id": "JOB_008",
+        "title": "Frontend Developer (React, Next.js)",
+        "company": "Tech Startup Z",
+        "location": "Hà Nội",
+        "salary": "18,000,000 - 28,000,000 VNĐ",
+        "short_desc": "Xây dựng giao diện web siêu mượt cho nền tảng giáo dục trực tuyến.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Sử dụng React và Next.js để phát triển các tính năng học trực tuyến (Video streaming, Quiz).\n- Tối ưu hóa SEO và Web Core Vitals.\nYÊU CẦU:\n- Vững JavaScript/TypeScript, React Hook.\n- Hiểu biết về Redux hoặc Zustand.\nQUYỀN LỢI:\n- Gói tập gym miễn phí, cung cấp tài khoản Udemy."
+    },
+    {
+        "id": "JOB_009",
+        "title": "Content Creator (TikTok/Reels)",
+        "company": "Media Entertainment",
+        "location": "Hồ Chí Minh",
+        "salary": "10,000,000 - 15,000,000 VNĐ",
+        "short_desc": "Lên kịch bản và diễn xuất, quay dựng video ngắn cho kênh mạng xã hội.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Bắt trend nhanh, lên kịch bản video TikTok mảng giải trí, ẩm thực.\n- Tự quay và dựng bằng Capcut/Premiere cơ bản.\nYÊU CẦU:\n- Gen Z năng động, không ngại ống kính.\n- Có khiếu hài hước, thẩm mỹ video tốt.\nQUYỀN LỢI:\n- Môi trường Gen Z, trà sữa free mỗi ngày."
+    },
+    {
+        "id": "JOB_010",
+        "title": "DevOps Engineer",
+        "company": "Cloud Infrastructure Co",
+        "location": "Hà Nội (Hybrid)",
+        "salary": "25,000,000 - 40,000,000 VNĐ",
+        "short_desc": "Vận hành và tự động hóa hạ tầng Cloud (CI/CD, Kubernetes).",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Xây dựng và quản lý các luồng CI/CD bằng GitLab CI/Jenkins.\n- Vận hành cụm Kubernetes (K8s), Docker trên AWS/GCP.\nYÊU CẦU:\n- Có kinh nghiệm thực tế với K8s và Terraform.\n- Nắm vững Linux system administration.\nQUYỀN LỢI:\n- Thưởng dự án, tài trợ thi các chứng chỉ quốc tế (AWS, CKA)."
+    },
+    {
+        "id": "JOB_011",
+        "title": "Chuyên viên Phân tích nghiệp vụ (BA - Business Analyst)",
+        "company": "Outsource Tech",
+        "location": "Đà Nẵng",
+        "salary": "15,000,000 - 22,000,000 VNĐ",
+        "short_desc": "Cầu nối giữa khách hàng Nhật Bản và đội ngũ phát triển phần mềm.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Lấy yêu cầu từ khách hàng, viết tài liệu SRS, User Stories.\n- Vẽ UML diagram, mockup màn hình bằng Balsamiq/Figma.\n- Hỗ trợ UAT (User Acceptance Testing).\nYÊU CẦU:\n- Tiếng Nhật N3 trở lên hoặc Tiếng Anh lưu loát.\n- Có kỹ năng hệ thống hóa thông tin tốt.\nQUYỀN LỢI:\n- Phụ cấp ngoại ngữ hàng tháng."
+    },
+    {
+        "id": "JOB_012",
+        "title": "Nhân viên Chăm sóc khách hàng (Customer Service)",
+        "company": "Shopee VN",
+        "location": "Hồ Chí Minh",
+        "salary": "7,000,000 - 10,000,000 VNĐ",
+        "short_desc": "Giải đáp thắc mắc và xử lý khiếu nại của khách hàng qua tổng đài/chat.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Tiếp nhận cuộc gọi, tin nhắn từ người mua và người bán.\n- Xử lý các vấn đề về đơn hàng, hoàn trả, thanh toán.\nYÊU CẦU:\n- Giọng nói chuẩn, không ngọng, không đặc vùng miền.\n- Chịu được áp lực cao, có khả năng làm xoay ca.\nQUYỀN LỢI:\n- Môi trường làm việc chuyên nghiệp, đầy đủ BHXH."
+    },
+    {
+        "id": "JOB_013",
+        "title": "AI Engineer (Computer Vision)",
+        "company": "AutoDrive Startup",
+        "location": "Hà Nội",
+        "salary": "1,000 - 2,000 USD",
+        "short_desc": "Nghiên cứu mô hình AI nhận diện hình ảnh cho xe tự lái.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Huấn luyện mô hình Object Detection (YOLO, Faster R-CNN) nhận diện biển báo, người đi bộ.\n- Tối ưu hóa mô hình để chạy realtime trên thiết bị nhúng (Jetson Nano).\nYÊU CẦU:\n- Bằng cử nhân/thạc sĩ chuyên ngành KHMT/AI.\n- Thành thạo Python, PyTorch/TensorFlow.\nQUYỀN LỢI:\n- Làm việc với các tiến sĩ AI từ nước ngoài về."
+    },
+    {
+        "id": "JOB_014",
+        "title": "Chuyên viên Logistics & Xuất nhập khẩu",
+        "company": "Global Freight VN",
+        "location": "Hải Phòng",
+        "salary": "10,000,000 - 15,000,000 VNĐ",
+        "short_desc": "Thực hiện thủ tục hải quan và điều phối vận tải đường biển.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Lên tờ khai hải quan điện tử (ECUS/VNACCS).\n- Liên hệ hãng tàu, book cước, theo dõi lịch trình container.\nYÊU CẦU:\n- Tốt nghiệp chuyên ngành Kinh tế quốc tế/Logistics.\n- Cẩn thận, xử lý chứng từ nhanh nhẹn.\nQUYỀN LỢI:\n- Thưởng lễ tết, thưởng theo khối lượng hàng xuất thành công."
+    },
+    {
+        "id": "JOB_015",
+        "title": "Game Developer (Unity/C#)",
+        "company": "Mobile Games Studio",
+        "location": "Hồ Chí Minh",
+        "salary": "15,000,000 - 25,000,000 VNĐ",
+        "short_desc": "Lập trình game mobile casual/hyper-casual trên Unity.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Implement logic game, tích hợp UI và các hiệu ứng particle.\n- Tích hợp các SDK quảng cáo (AdMob, AppLovin) và tracking.\nYÊU CẦU:\n- Nắm vững C# và Unity Engine.\n- Có sản phẩm game thực tế trên store là một lợi thế cực lớn.\nQUYỀN LỢI:\n- Thưởng doanh thu khi game đạt top trending."
+    },
+    {
+        "id": "JOB_016",
+        "title": "SEO Specialist",
+        "company": "Digital Agency",
+        "location": "Remote",
+        "salary": "12,000,000 - 18,000,000 VNĐ",
+        "short_desc": "Tối ưu hóa công cụ tìm kiếm, đẩy từ khóa lên TOP Google.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Nghiên cứu từ khóa, tối ưu On-page và Off-page.\n- Xây dựng hệ thống backlink, audit website định kỳ.\nYÊU CẦU:\n- Hiểu sâu về thuật toán Google, thành thạo Ahrefs, Search Console.\n- Có kết quả (case study) các dự án đã thành công.\nQUYỀN LỢI:\n- Làm việc từ xa, không quản lý thời gian, chỉ quan tâm KPI."
+    },
+    {
+        "id": "JOB_017",
+        "title": "Nhân viên Kế toán Nội bộ",
+        "company": "F&B Chain VN",
+        "location": "Hà Nội",
+        "salary": "8,000,000 - 10,000,000 VNĐ",
+        "short_desc": "Quản lý thu chi và công nợ nội bộ của chuỗi nhà hàng.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Nhập liệu phần mềm MISA, kiểm tra hóa đơn chứng từ.\n- Đối chiếu công nợ nhà cung cấp, chốt ca ngân với thu ngân cửa hàng.\nYÊU CẦU:\n- Chăm chỉ, thật thà, biết sử dụng Excel cơ bản.\nQUYỀN LỢI:\n- Bao ăn trưa tại nhà hàng, môi trường thân thiện."
+    },
+    {
+        "id": "JOB_018",
+        "title": "Mobile App Developer (Flutter)",
+        "company": "HealthTech VN",
+        "location": "Đà Nẵng",
+        "salary": "18,000,000 - 28,000,000 VNĐ",
+        "short_desc": "Phát triển ứng dụng theo dõi sức khỏe đa nền tảng (iOS & Android).",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Code giao diện, xử lý state management (Provider/Bloc).\n- Giao tiếp với thiết bị Bluetooth (smartwatch, máy đo huyết áp).\nYÊU CẦU:\n- Có kinh nghiệm với Flutter/Dart trên 1 năm.\n- Hiểu biết về Native code (Swift/Kotlin) là điểm cộng.\nQUYỀN LỢI:\n- Trợ cấp bảo hiểm sức khỏe VIP, du lịch hàng năm."
+    },
+    {
+        "id": "JOB_019",
+        "title": "Quản lý Cửa hàng (Store Manager)",
+        "company": "Thời trang Local Brand",
+        "location": "Hồ Chí Minh",
+        "salary": "15,000,000 + % Doanh thu",
+        "short_desc": "Quản lý vận hành và thúc đẩy doanh số của cửa hàng thời trang.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Quản lý nhân sự (ca làm việc, đào tạo sales).\n- Kiểm soát tồn kho, visual merchandising (trưng bày).\nYÊU CẦU:\n- Từng làm quản lý/cửa hàng phó ngành bán lẻ.\n- Ngoại hình sáng, đam mê thời trang.\nQUYỀN LỢI:\n- Mua đồ nội bộ giảm giá 50%, thưởng vượt doanh số cực cao."
+    },
+    {
+        "id": "JOB_020",
+        "title": "Data Analyst (SQL & PowerBI)",
+        "company": "Retail Group",
+        "location": "Hà Nội",
+        "salary": "15,000,000 - 22,000,000 VNĐ",
+        "short_desc": "Phân tích dữ liệu bán hàng và hành vi người tiêu dùng.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Trích xuất dữ liệu bằng SQL complex queries.\n- Xây dựng dashboard trực quan trên PowerBI/Tableau để ban giám đốc ra quyết định.\nYÊU CẦU:\n- Cực kỳ nhạy bén với các con số, tư duy phản biện tốt.\n- Thành thạo SQL và một công cụ BI.\nQUYỀN LỢI:\n- Lộ trình thăng tiến rõ ràng lên Senior/Data Scientist."
+    },
+    {
+        "id": "JOB_021",
+        "title": "Python Developer (CrewAI focus)",
+        "company": "AI Tech Solutions",
+        "location": "Hà Nội",
+        "salary": "15,000,000 - 25,000,000 VNĐ",
+        "short_desc": "Phát triển hệ thống Multi-Agent sử dụng CrewAI và LangChain.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Xây dựng các Agent để tự động hoá task văn phòng.\n- Tích hợp Gemini/ChatGPT API. Code bằng Python 3.11.\nYÊU CẦU:\n- Hiểu về Prompt Engineering và OOP Python.\nQUYỀN LỢI:\n- Môi trường startup chuyên sâu về AI."
+    },
+    {
+        "id": "JOB_022",
+        "title": "Fullstack Developer (Laravel & React)",
+        "company": "Creative Soft",
+        "location": "Đà Nẵng",
+        "salary": "20,000,000 - 35,000,000 VNĐ",
+        "short_desc": "Xây dựng hệ thống quản lý phòng khám chuyên sâu.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Dùng Laravel làm API, React làm Frontend.\n- Tối ưu CSDL cho hệ thống y tế bảo mật cao.\nYÊU CẦU:\n- Kinh nghiệm Fullstack >2 năm. Nắm vững MVC, Repository pattern.\nQUYỀN LỢI:\n- Review lương 6 tháng/lần."
+    },
+    {
+        "id": "JOB_023",
+        "title": "Robotics / Hardware Hacker",
+        "company": "IoT Lab VN",
+        "location": "Hồ Chí Minh",
+        "salary": "Thỏa thuận",
+        "short_desc": "Phát triển thuật toán maze-solving dùng LiDAR cho robot.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Tháo lắp, hack phần cứng thiết bị cũ, tái sử dụng LiDAR.\n- Lập trình C++/Python cho bo mạch nhúng.\nYÊU CẦU:\n- Đam mê điện tử, vi điều khiển.\nQUYỀN LỢI:\n- Tự do sáng tạo, được tài trợ kinh phí làm lab."
+    },
+    {
+        "id": "JOB_024",
+        "title": "Financial Analyst (Chứng khoán)",
+        "company": "Capital Invest",
+        "location": "Hà Nội",
+        "salary": "15,000,000 + Performance",
+        "short_desc": "Phân tích kỹ thuật các mã VCB, TCB, MBB, áp dụng Wyckoff.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Phân tích biểu đồ nến, tìm điểm vào lệnh theo phương pháp Wyckoff.\n- Theo dõi tin tức địa chính trị ảnh hưởng nhóm Bank, Phân bón.\nYÊU CẦU:\n- Nhạy bén thị trường, có chứng chỉ CFA là lợi thế.\nQUYỀN LỢI:\n- Quản lý danh mục đầu tư lớn."
+    },
+    {
+        "id": "JOB_025",
+        "title": "Video Editor (Subtitling)",
+        "company": "Ngáo Ca Sub",
+        "location": "Remote",
+        "salary": "7,000,000 - 12,000,000 VNĐ",
+        "short_desc": "Biên tập, làm sub cho phim hoạt hình Trung Quốc (Xuyên không, Tiên hiệp).",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Dùng tool AI lấy sub, chỉnh sửa file SRT cho khớp timecode.\n- Quản lý kênh Youtube, tối ưu SEO.\nYÊU CẦU:\n- Đam mê thể loại Tiên hiệp, biết dùng Capcut/Aegisub.\nQUYỀN LỢI:\n- Làm online tại nhà."
+    },
+    {
+        "id": "JOB_026",
+        "title": "C# .NET Backend Developer",
+        "company": "Enterprise Corp",
+        "location": "Hồ Chí Minh",
+        "salary": "25,000,000 - 35,000,000 VNĐ",
+        "short_desc": "Xây dựng microservices với .NET 8 và SQL Server.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Thiết kế DB, viết logic business phức tạp bằng C#.\n- Áp dụng các mẫu Design Pattern.\nYÊU CẦU:\n- 3 năm kinh nghiệm .NET Core.\nQUYỀN LỢI:\n- Bảo hiểm FPT Care."
+    },
+    {
+        "id": "JOB_027",
+        "title": "Trợ lý Giám đốc (Personal Assistant)",
+        "company": "Holding Group",
+        "location": "Hà Nội",
+        "salary": "15,000,000 - 20,000,000 VNĐ",
+        "short_desc": "Hỗ trợ sắp xếp lịch trình, dịch thuật và quản lý tài liệu cho CEO.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Book vé máy bay, làm lịch công tác.\n- Chuẩn bị slide thuyết trình, ghi biên bản họp.\nYÊU CẦU:\n- Tiếng Anh IELTS 6.5+, ngoại hình sáng, cẩn thận.\nQUYỀN LỢI:\n- Cơ hội học hỏi quản trị thực tế."
+    },
+    {
+        "id": "JOB_028",
+        "title": "Giáo viên Tiếng Anh (IELTS)",
+        "company": "EduCenter VN",
+        "location": "Đà Nẵng",
+        "salary": "20,000,000 - 30,000,000 VNĐ",
+        "short_desc": "Giảng dạy các lớp luyện thi IELTS đầu ra 6.5+.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Dạy học theo giáo trình trung tâm, chấm chữa bài Writing/Speaking.\nYÊU CẦU:\n- Bằng IELTS 8.0, có chứng chỉ TESOL.\nQUYỀN LỢI:\n- Thưởng khi học viên đạt mục tiêu."
+    },
+    {
+        "id": "JOB_029",
+        "title": "Kỹ sư Cơ khí (Mechanical Engineer)",
+        "company": "AutoMaker VN",
+        "location": "Hải Phòng",
+        "salary": "15,000,000 - 22,000,000 VNĐ",
+        "short_desc": "Thiết kế khuôn mẫu và chi tiết máy dùng AutoCAD/SolidWorks.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Đọc bản vẽ kỹ thuật, mô phỏng lực.\n- Giám sát gia công tại xưởng.\nYÊU CẦU:\n- Tốt nghiệp Bách Khoa, kinh nghiệm 1-2 năm.\nQUYỀN LỢI:\n- Có xe đưa rước nội bộ."
+    },
+    {
+        "id": "JOB_030",
+        "title": "Performance Marketing Executive",
+        "company": "Game Publisher",
+        "location": "Hồ Chí Minh",
+        "salary": "18,000,000 - 25,000,000 VNĐ",
+        "short_desc": "Chạy quảng cáo chuyển đổi cho sản phẩm game eSports.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Lên camp Google Ads, FB Ads tối ưu CPA/CPI.\nYÊU CẦU:\n- Am hiểu tracking (AppsFlyer), ngân sách chạy >1 tỷ/tháng.\nQUYỀN LỢI:\n- Thưởng nóng theo user active."
+    },
+    {
+        "id": "JOB_031",
+        "title": "System Administrator (SysAdmin)",
+        "company": "Bank IT Hub",
+        "location": "Hà Nội",
+        "salary": "20,000,000 - 28,000,000 VNĐ",
+        "short_desc": "Quản trị hệ thống máy chủ Linux/Windows và mạng doanh nghiệp.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Cài đặt, bảo trì server, firewall, VPN.\n- Xử lý sự cố IT nội bộ.\nYÊU CẦU:\n- Có chứng chỉ CCNA, MCSA. Kinh nghiệm Bash/PowerShell.\nQUYỀN LỢI:\n- Chế độ đãi ngộ ngân hàng."
+    },
+    {
+        "id": "JOB_032",
+        "title": "UX Writer / Copywriter",
+        "company": "FinTech App",
+        "location": "Hồ Chí Minh",
+        "salary": "12,000,000 - 18,000,000 VNĐ",
+        "short_desc": "Viết nội dung giao diện ứng dụng (microcopy) giúp tăng trải nghiệm người dùng.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Viết hướng dẫn lỗi, nút bấm, thông báo ứng dụng sao cho ngắn gọn, thân thiện.\nYÊU CẦU:\n- Tư duy ngôn ngữ tốt, hiểu về thiết kế sản phẩm.\nQUYỀN LỢI:\n- Tham gia vào quy trình làm Product chuyên nghiệp."
+    },
+    {
+        "id": "JOB_033",
+        "title": "Chuyên viên Quản lý rủi ro (Risk Management)",
+        "company": "Insurance Life",
+        "location": "Hà Nội",
+        "salary": "25,000,000 - 35,000,000 VNĐ",
+        "short_desc": "Thẩm định rủi ro hợp đồng bảo hiểm và tài chính.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Đánh giá hồ sơ khách hàng, phân tích xác suất rủi ro bằng model thống kê.\nYÊU CẦU:\n- Background Toán/Tài chính, cẩn thận tuyệt đối.\nQUYỀN LỢI:\n- Đóng bảo hiểm 100% lương."
+    },
+    {
+        "id": "JOB_034",
+        "title": "Quản lý Kho (Warehouse Supervisor)",
+        "company": "Logistics Express",
+        "location": "Bình Dương",
+        "salary": "15,000,000 - 20,000,000 VNĐ",
+        "short_desc": "Quản lý vận hành kho bãi hàng nghìn m2.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Nhập xuất tồn, sắp xếp layout kho tối ưu 5S.\n- Quản lý team công nhân kho 50 người.\nYÊU CẦU:\n- Biết dùng hệ thống WMS, sức khỏe tốt.\nQUYỀN LỢI:\n- Cung cấp chỗ ở miễn phí."
+    },
+    {
+        "id": "JOB_035",
+        "title": "Cyber Security Analyst",
+        "company": "Cyber Defense VN",
+        "location": "Hà Nội",
+        "salary": "25,000,000 - 40,000,000 VNĐ",
+        "short_desc": "Kiểm thử xâm nhập (PenTest) và rà quét lỗ hổng bảo mật.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Thực hiện các đợt tấn công giả lập vào hệ thống web/app.\n- Viết báo cáo và đề xuất giải pháp vá lỗi.\nYÊU CẦU:\n- Nắm vững OWASP, có chứng chỉ CEH/OSCP.\nQUYỀN LỢI:\n- Tham gia các giải Bug Bounty quốc tế."
+    },
+    {
+        "id": "JOB_036",
+        "title": "Nhân viên Pháp lý (Legal Executive)",
+        "company": "Real Estate JSC",
+        "location": "Hồ Chí Minh",
+        "salary": "15,000,000 - 22,000,000 VNĐ",
+        "short_desc": "Xử lý hồ sơ pháp lý dự án và review hợp đồng kinh tế.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Soạn thảo, kiểm tra tính pháp lý của hợp đồng.\n- Làm việc với sở ban ngành về giấy phép dự án.\nYÊU CẦU:\n- Cử nhân Luật, có thẻ luật sư là điểm cộng.\nQUYỀN LỢI:\n- Được đào tạo bởi Luật sư trưởng."
+    },
+    {
+        "id": "JOB_037",
+        "title": "3D Artist / Modeler",
+        "company": "Game Studio X",
+        "location": "Đà Nẵng",
+        "salary": "15,000,000 - 25,000,000 VNĐ",
+        "short_desc": "Tạo hình nhân vật và môi trường 3D cho dự án game AAA.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Dùng Maya/Blender/ZBrush để dựng hình (High-poly/Low-poly).\n- Làm texture bằng Substance Painter.\nYÊU CẦU:\n- Portfolio ấn tượng, hiểu rõ giải phẫu học (anatomy).\nQUYỀN LỢI:\n- Cung cấp Wacom Cintiq."
+    },
+    {
+        "id": "JOB_038",
+        "title": "Chuyên viên QA/QC Phần mềm",
+        "company": "Soft Test VN",
+        "location": "Hà Nội",
+        "salary": "10,000,000 - 18,000,000 VNĐ",
+        "short_desc": "Kiểm thử thủ công và tự động hóa các lỗi phần mềm.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Viết Test case, báo cáo lỗi lên Jira.\n- Viết script automation bằng Selenium/Cypress.\nYÊU CẦU:\n- Cẩn thận, tư duy break-the-system.\nQUYỀN LỢI:\n- Trợ cấp ăn ca, team building."
+    },
+    {
+        "id": "JOB_039",
+        "title": "Nhiếp ảnh gia (Photographer)",
+        "company": "Media Production",
+        "location": "Hồ Chí Minh",
+        "salary": "12,000,000 - 20,000,000 VNĐ",
+        "short_desc": "Chụp ảnh sản phẩm, thời trang và sự kiện doanh nghiệp.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Setup ánh sáng, góc máy tại Studio.\n- Hậu kỳ ảnh bằng Lightroom/Photoshop.\nYÊU CẦU:\n- Có thiết bị cá nhân (body + lens cơ bản), tư duy hình ảnh tốt.\nQUYỀN LỢI:\n- Thưởng doanh thu shoot chụp."
+    },
+    {
+        "id": "JOB_040",
+        "title": "Scrum Master",
+        "company": "Agile Tech Dev",
+        "location": "Hà Nội",
+        "salary": "30,000,000 - 45,000,000 VNĐ",
+        "short_desc": "Điều phối dự án theo mô hình Agile/Scrum.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Tổ chức các buổi Daily stand-up, Sprint Planning, Retrospective.\n- Loại bỏ rào cản để team dev làm việc hiệu quả.\nYÊU CẦU:\n- Chứng chỉ PSM I/CSM, kỹ năng mềm cực tốt.\nQUYỀN LỢI:\n- Gói chăm sóc sức khỏe gia đình."
+    },
+    {
+        "id": "JOB_041",
+        "title": "Bác sĩ thú y (Veterinarian)",
+        "company": "Pet Care Clinic",
+        "location": "Đà Nẵng",
+        "salary": "15,000,000 - 25,000,000 VNĐ",
+        "short_desc": "Khám chữa bệnh, phẫu thuật cho chó mèo.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Siêu âm, xét nghiệm, chẩn đoán bệnh thú cưng.\n- Tư vấn dinh dưỡng cho khách hàng.\nYÊU CẦU:\n- Tốt nghiệp Đại học chuyên ngành Thú y, yêu động vật.\nQUYỀN LỢI:\n- Hoa hồng trên doanh thu phòng khám."
+    },
+    {
+        "id": "JOB_042",
+        "title": "Kỹ sư Cầu nối (BrSE - Bridge System Engineer)",
+        "company": "Japan Tech VN",
+        "location": "Hà Nội",
+        "salary": "2,000 - 3,500 USD",
+        "short_desc": "Làm việc trực tiếp với khách hàng Nhật, thiết kế hệ thống.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Q&A, dịch tài liệu kỹ thuật, review code.\nYÊU CẦU:\n- Tiếng Nhật N2+, kỹ năng code cứng (Java/PHP).\nQUYỀN LỢI:\n- Cơ hội Onsite Nhật Bản."
+    },
+    {
+        "id": "JOB_043",
+        "title": "Chuyên viên Quan hệ công chúng (PR Executive)",
+        "company": "Brand Comms",
+        "location": "Hồ Chí Minh",
+        "salary": "14,000,000 - 20,000,000 VNĐ",
+        "short_desc": "Xây dựng hình ảnh thương hiệu và xử lý khủng hoảng truyền thông.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Viết thông cáo báo chí, duy trì quan hệ với nhà báo.\n- Lên ý tưởng PR campaign.\nYÊU CẦU:\n- Kỹ năng viết xuất sắc, khéo léo trong giao tiếp.\nQUYỀN LỢI:\n- Phụ cấp công tác phí."
+    },
+    {
+        "id": "JOB_044",
+        "title": "Embedded Software Engineer",
+        "company": "Hardware IoT",
+        "location": "Đà Nẵng",
+        "salary": "18,000,000 - 28,000,000 VNĐ",
+        "short_desc": "Lập trình vi điều khiển C/C++ cho thiết bị nhà thông minh.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Phát triển firmware cho vi điều khiển ARM/ESP32.\n- Giao tiếp các chuẩn I2C, SPI, UART.\nYÊU CẦU:\n- Đọc hiểu schematics phần cứng tốt.\nQUYỀN LỢI:\n- Đồ ăn nhẹ miễn phí."
+    },
+    {
+        "id": "JOB_045",
+        "title": "Nhà nghiên cứu Sinh học (Biotech Researcher)",
+        "company": "LifeScience Lab",
+        "location": "Hà Nội",
+        "salary": "12,000,000 - 18,000,000 VNĐ",
+        "short_desc": "Nghiên cứu và phát triển sản phẩm sinh học nông nghiệp.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Phân lập, nuôi cấy vi sinh vật.\n- Viết báo cáo khoa học và quy trình chuẩn (SOP).\nYÊU CẦU:\n- Cử nhân/Thạc sĩ Công nghệ sinh học.\nQUYỀN LỢI:\n- Được tham gia các hội thảo quốc tế."
+    },
+    {
+        "id": "JOB_046",
+        "title": "Game Designer",
+        "company": "PlayFun Studio",
+        "location": "Hồ Chí Minh",
+        "salary": "18,000,000 - 30,000,000 VNĐ",
+        "short_desc": "Thiết kế luật chơi, level và cân bằng kinh tế trong game.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Viết Game Design Document (GDD).\n- Cân bằng chỉ số (stats) nhân vật dùng Excel.\nYÊU CẦU:\n- Am hiểu toán xác suất, chơi nhiều thể loại game.\nQUYỀN LỢI:\n- Thưởng dự án hấp dẫn."
+    },
+    {
+        "id": "JOB_047",
+        "title": "Chuyên viên Đào tạo nội bộ (Trainer)",
+        "company": "Retail Chain",
+        "location": "Hà Nội",
+        "salary": "15,000,000 - 22,000,000 VNĐ",
+        "short_desc": "Tổ chức các khóa đào tạo hội nhập và kỹ năng mềm cho nhân viên.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Đứng lớp đào tạo, soạn tài liệu E-learning.\n- Đánh giá hiệu quả sau đào tạo.\nYÊU CẦU:\n- Kỹ năng thuyết trình, truyền cảm hứng tốt.\nQUYỀN LỢI:\n- Du lịch nước ngoài 1 lần/năm."
+    },
+    {
+        "id": "JOB_048",
+        "title": "Kỹ sư Điện tự động hóa (Automation Engineer)",
+        "company": "Factory Automation",
+        "location": "Bắc Ninh",
+        "salary": "16,000,000 - 24,000,000 VNĐ",
+        "short_desc": "Lập trình PLC và màn hình HMI điều khiển dây chuyền sản xuất.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Lập trình PLC Siemens/Mitsubishi.\n- Đấu nối tủ điện công nghiệp.\nYÊU CẦU:\n- Sẵn sàng đi công tác, trực tiếp xuống xưởng.\nQUYỀN LỢI:\n- Phụ cấp độc hại, xe đưa rước."
+    },
+    {
+        "id": "JOB_049",
+        "title": "Kiến trúc sư (Architect)",
+        "company": "Space Design",
+        "location": "Đà Nẵng",
+        "salary": "15,000,000 - 25,000,000 VNĐ",
+        "short_desc": "Thiết kế ý tưởng và triển khai bản vẽ kỹ thuật các công trình dân dụng.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Dựng 3D Sketchup, render Vray/Enscape.\n- Bóc tách khối lượng vật tư.\nYÊU CẦU:\n- Tốt nghiệp Kiến trúc, thẩm mỹ hiện đại (Minimalism).\nQUYỀN LỢI:\n- Thưởng phần trăm giá trị công trình."
+    },
+    {
+        "id": "JOB_050",
+        "title": "Giám đốc Vận hành (COO)",
+        "company": "Startup Unicorn",
+        "location": "Hà Nội",
+        "salary": "Upto 5,000 USD",
+        "short_desc": "Lãnh đạo toàn bộ quy trình vận hành và scale-up công ty.",
+        "full_jd": "MÔ TẢ CÔNG VIỆC:\n- Xây dựng OKRs, quy trình vận hành liên phòng ban.\n- Quản lý P&L (Lỗ/Lãi) cùng CEO.\nYÊU CẦU:\n- Tư duy chiến lược, từng làm C-level tại các công ty công nghệ lớn.\nQUYỀN LỢI:\n- ESOP (Cổ phần thưởng) giá trị cao."
+    }
+]
