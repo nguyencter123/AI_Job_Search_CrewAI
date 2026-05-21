@@ -1,158 +1,140 @@
 from repositories.database import SessionLocal
-from repositories.models import User
-
-from repositories.user_repository import (
-    get_all_users,
-    search_users_by_email,
-    filter_users,
-    get_user_by_id,
-    set_user_status,
-    delete_user,
-    count_total_users,
-    count_active_users,
-    count_blocked_users,
-    count_admin_users
-)
+from repositories.admin_repository import AdminRepository
 
 
 class AdminFacade:
 
-    # =========================
+    # ======================
     # FORMAT USER
-    # =========================
+    # ======================
     @staticmethod
     def _format_user(user):
         return {
             "id": user.id,
             "email": user.email,
             "role": user.role,
-            "is_active": user.is_active,
-            "created_at": user.created_at
+            "is_active": user.is_active
         }
 
-    # =========================
-    # GET USERS
-    # =========================
-    @staticmethod
-    def fetch_all_users():
-        db = SessionLocal()
-
-        try:
-            users = get_all_users(db)
-
-            return [
-                AdminFacade._format_user(u)
-                for u in users
-            ]
-
-        finally:
-            db.close()
-
-    @staticmethod
-    def search_users(keyword):
-        db = SessionLocal()
-
-        try:
-            users = search_users_by_email(db, keyword)
-
-            return [
-                AdminFacade._format_user(u)
-                for u in users
-            ]
-
-        finally:
-            db.close()
-
-    @staticmethod
-    def filter_users(role=None, is_active=None):
-        db = SessionLocal()
-
-        try:
-            users = filter_users(db, role, is_active)
-
-            return [
-                AdminFacade._format_user(u)
-                for u in users
-            ]
-
-        finally:
-            db.close()
-
-    # =========================
-    # UPDATE STATUS
-    # =========================
-    @staticmethod
-    def update_user_status(user_id, status, current_admin_id):
-        db = SessionLocal()
-
-        try:
-            user = get_user_by_id(db, user_id)
-
-            if not user:
-                return False, "User không tồn tại"
-
-            if user.id == current_admin_id:
-                return False, "Admin không thể tự khóa"
-
-            set_user_status(db, user_id, status)
-
-            db.commit()
-
-            return True, "Cập nhật thành công"
-
-        except:
-            db.rollback()
-            return False, "Lỗi database"
-
-        finally:
-            db.close()
-
-    # =========================
-    # DELETE USER
-    # =========================
-    @staticmethod
-    def remove_user(user_id, current_admin_id):
-        db = SessionLocal()
-
-        try:
-            user = get_user_by_id(db, user_id)
-
-            if not user:
-                return False, "User không tồn tại"
-
-            if user.id == current_admin_id:
-                return False, "Không thể tự xóa"
-
-            if user.role == "admin":
-                return False, "Không được xóa admin"
-
-            delete_user(db, user_id)
-
-            db.commit()
-
-            return True, "Đã xóa user"
-
-        except:
-            db.rollback()
-            return False, "Lỗi database"
-
-        finally:
-            db.close()
-
-    # =========================
-    # STATISTICS
-    # =========================
+    # ======================
+    # STATS
+    # ======================
     @staticmethod
     def get_statistics():
         db = SessionLocal()
 
         try:
             return {
-                "total_users": count_total_users(db),
-                "active_users": count_active_users(db),
-                "blocked_users": count_blocked_users(db),
-                "admin_count": count_admin_users(db)
+                "total_users": AdminRepository.count_users(db),
+                "active_users": AdminRepository.count_active_users(db),
+                "blocked_users": AdminRepository.count_blocked_users(db),
+                "admin_count": AdminRepository.count_admins(db)
             }
+
+        finally:
+            db.close()
+
+    # ======================
+    # GET USERS
+    # ======================
+    @staticmethod
+    def get_users(keyword="", role="all", active=None):
+        db = SessionLocal()
+
+        try:
+            users = AdminRepository.get_users(
+                db,
+                keyword=keyword,
+                role=role,
+                active=active
+            )
+
+            return [
+                AdminFacade._format_user(user)
+                for user in users
+            ]
+
+        finally:
+            db.close()
+
+    # ======================
+    # LOCK / UNLOCK USER
+    # ======================
+    @staticmethod
+    def update_user_status(
+        user_id,
+        new_status,
+        current_admin_id
+    ):
+        db = SessionLocal()
+
+        try:
+            user = AdminRepository.get_user_by_id(
+                db,
+                user_id
+            )
+
+            if not user:
+                return False, "Người dùng không tồn tại"
+
+            if user.id == current_admin_id:
+                return False, "Không thể khóa chính mình"
+
+            user.is_active = new_status
+            AdminRepository.save(db)
+
+            if new_status:
+                return True, "Đã mở tài khoản"
+
+            return True, "Đã khóa tài khoản"
+
+        except Exception as e:
+            db.rollback()
+            return False, str(e)
+
+        finally:
+            db.close()
+
+    # ======================
+    # DELETE USER
+    # ======================
+    @staticmethod
+    def remove_user(
+        user_id,
+        current_admin_id
+    ):
+        db = SessionLocal()
+
+        try:
+            user = AdminRepository.get_user_by_id(
+                db,
+                user_id
+            )
+
+            if not user:
+                return False, "Người dùng không tồn tại"
+
+            if user.id == current_admin_id:
+                return False, "Không thể xóa chính mình"
+
+            # delete children manually
+            for match in user.matches:
+                db.delete(match)
+
+            for doc in user.documents:
+                db.delete(doc)
+
+            if user.profile:
+                db.delete(user.profile)
+
+            AdminRepository.delete(db, user)
+            AdminRepository.save(db)
+
+            return True, "Đã xóa user"
+
+        except Exception as e:
+            db.rollback()
+            return False, str(e)
 
         finally:
             db.close()

@@ -1,10 +1,11 @@
 import streamlit as st
-
 from services.admin_service import AdminFacade
 
 
 def user_management_page():
     st.header("👥 Quản lý Người dùng")
+
+    current_user_id = st.session_state.get("user_id")
 
     # =========================
     # STATS
@@ -13,15 +14,15 @@ def user_management_page():
 
     c1, c2, c3, c4 = st.columns(4)
 
-    c1.metric("Tổng User", stats["total_users"])
-    c2.metric("Hoạt động", stats["active_users"])
-    c3.metric("Bị khóa", stats["blocked_users"])
-    c4.metric("Admin", stats["admin_count"])
+    c1.metric("Tổng User", stats.get("total_users", 0))
+    c2.metric("Hoạt động", stats.get("active_users", 0))
+    c3.metric("Bị khóa", stats.get("blocked_users", 0))
+    c4.metric("Admin", stats.get("admin_count", 0))
 
     st.divider()
 
     # =========================
-    # SEARCH + FILTER
+    # FILTER
     # =========================
     col1, col2, col3 = st.columns(3)
 
@@ -40,24 +41,26 @@ def user_management_page():
             ["all", "active", "blocked"]
         )
 
-    # Query logic
-    if keyword:
-        users = AdminFacade.search_users(keyword)
-
+    if status_filter == "all":
+        active = None
+    elif status_filter == "active":
+        active = True
     else:
-        if status_filter == "all":
-            active = None
-        elif status_filter == "active":
-            active = True
-        else:
-            active = False
+        active = False
 
-        users = AdminFacade.filter_users(
-            role_filter,
-            active
-        )
+    users = AdminFacade.get_users(
+        keyword=keyword,
+        role=role_filter,
+        active=active
+    )
+
+    users = users or []
 
     st.divider()
+
+    if not users:
+        st.info("Không có người dùng")
+        return
 
     # =========================
     # USER LIST
@@ -66,7 +69,9 @@ def user_management_page():
         col1, col2, col3, col4 = st.columns([4, 2, 2, 2])
 
         with col1:
-            st.write(f"**{user['email']}** ({user['role']})")
+            st.write(
+                f"**{user['email']}** ({user['role']})"
+            )
 
         with col2:
             st.write(
@@ -76,20 +81,22 @@ def user_management_page():
             )
 
         with col3:
-            button_label = (
+            label = (
                 "Khóa"
                 if user["is_active"]
                 else "Mở"
             )
 
             if st.button(
-                button_label,
+                label,
                 key=f"lock_{user['id']}"
             ):
-                success, msg = AdminFacade.update_user_status(
-                    user["id"],
-                    not user["is_active"],
-                    st.session_state["user_id"]
+                success, msg = (
+                    AdminFacade.update_user_status(
+                        user["id"],
+                        not user["is_active"],
+                        current_user_id
+                    )
                 )
 
                 if success:
@@ -101,8 +108,7 @@ def user_management_page():
 
         with col4:
             is_self = (
-                user["id"] ==
-                st.session_state["user_id"]
+                user["id"] == current_user_id
             )
 
             if st.button(
@@ -110,9 +116,11 @@ def user_management_page():
                 key=f"delete_{user['id']}",
                 disabled=is_self
             ):
-                success, msg = AdminFacade.remove_user(
-                    user["id"],
-                    st.session_state["user_id"]
+                success, msg = (
+                    AdminFacade.remove_user(
+                        user["id"],
+                        current_user_id
+                    )
                 )
 
                 if success:
