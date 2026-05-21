@@ -1,6 +1,7 @@
 # File: views/admin/admin_dashboard.py
 import streamlit as st
 from views.utils import load_css
+from views.admin.admin_management import user_management_page
 
 def render_admin_dashboard():
     load_css("assets/style.css")
@@ -38,6 +39,9 @@ def render_admin_dashboard():
         col3.metric(label="Lượt gọi API AI", value="342", delta="-15")
         
         st.info("💡 Lưu ý: Các chức năng chi tiết sẽ được xây dựng sau.")
+        
+    elif admin_menu == "👥 Quản lý Người dùng": 
+        user_management_page()
         
     else:
         # Các tab khác báo đang xây dựng

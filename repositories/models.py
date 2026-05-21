@@ -15,15 +15,35 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     # Thiết lập mối quan hệ với các bảng khác để dễ gọi dữ liệu sau này
-    profile = relationship("UserProfile", back_populates="user", uselist=False)
-    matches = relationship("UserJobMatch", back_populates="user")
-    documents = relationship("ApplicationDocument", back_populates="user")
+    profile = relationship(
+    "UserProfile",
+    back_populates="user",
+    uselist=False,
+    cascade="all, delete-orphan"
+    )
+
+    matches = relationship(
+        "UserJobMatch",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+    documents = relationship(
+        "ApplicationDocument",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
 
 class UserProfile(Base):
     __tablename__ = "user_profiles"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        unique=True,
+        nullable=False
+    )
     full_name = Column(String(100), nullable=False)
     skills = Column(Text)
     experience_summary = Column(Text)
@@ -36,7 +56,11 @@ class UserJobMatch(Base):
     __tablename__ = "user_job_matches"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(
+    Integer,
+    ForeignKey("users.id", ondelete="CASCADE"),
+    nullable=False
+    )
     job_id = Column(String(100), nullable=False)
     job_title = Column(String(255))
     match_score = Column(Float)
@@ -49,7 +73,11 @@ class ApplicationDocument(Base):
     __tablename__ = "application_documents"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(
+    Integer,
+    ForeignKey("users.id", ondelete="CASCADE"),
+    nullable=False
+    )
     job_id = Column(String(100), nullable=False)
     cv_content = Column(Text) 
     cover_letter_content = Column(Text)
