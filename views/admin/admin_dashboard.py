@@ -1,5 +1,6 @@
 # File: views/admin/admin_dashboard.py
 import streamlit as st
+from services.admin.admin_service import get_dashboard_stats
 from views.utils import load_css
 
 def render_admin_dashboard():
@@ -21,8 +22,7 @@ def render_admin_dashboard():
         st.spacer = st.container()
         st.divider()
         if st.button("🚪 Đăng xuất", use_container_width=True):
-            st.session_state['user_id'] = None
-            st.session_state['role'] = None
+            st.session_state.clear()
             st.rerun()
 
     # --- KHU VỰC HIỂN THỊ CHÍNH ---
@@ -31,13 +31,12 @@ def render_admin_dashboard():
     if admin_menu == "📊 Thống kê Tổng quan":
         st.markdown("Chào mừng **Admin**! Dưới đây là tình trạng hoạt động của hệ thống.")
         
-        # Tạo 3 thẻ thống kê giả lập
+        # Lấy dữ liệu thống kê thực từ Facade
+        stats = get_dashboard_stats()
         col1, col2, col3 = st.columns(3)
-        col1.metric(label="Tổng số Ứng viên", value="1,245", delta="+12 hôm nay")
-        col2.metric(label="Công việc (JD) hiện có", value="50", delta="0")
-        col3.metric(label="Lượt gọi API AI", value="342", delta="-15")
-        
-        st.info("💡 Lưu ý: Các chức năng chi tiết sẽ được xây dựng sau.")
+        col1.metric(label="Tổng số Người dùng", value=f"{stats['total_users']:,}")
+        col2.metric(label="Công việc (JD) hiện có", value=f"{stats['total_jobs']:,}")
+        col3.metric(label="Hồ sơ đã hoàn thiện", value=f"{stats['total_profiles_complete']:,}")
         
     else:
         # Các tab khác báo đang xây dựng

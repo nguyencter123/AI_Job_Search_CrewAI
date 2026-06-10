@@ -1,16 +1,22 @@
 # File: repositories/job_provider.py
-import json
-import os
+from repositories.database import db_session
+from repositories.employer.job_repo import get_active_jobs
 
 def get_all_jobs():
-    """Đọc danh sách công việc từ file JSON giả lập"""
-    # Lấy đường dẫn tuyệt đối đến file vietnam_jobs.json
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    file_path = os.path.join(base_dir, 'data', 'vietnam_jobs.json')
-    
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            jobs = json.load(f)
-            return jobs
-    except FileNotFoundError:
-        return [] # Nếu lỗi, trả về mảng rỗng để web không bị sập
+    """Lấy danh sách các công việc ĐANG HOẠT ĐỘNG từ Database."""
+    with db_session() as db:
+        jobs_orm = get_active_jobs(db)
+        # Chuyển đổi sang list of dicts để tương thích ngược với code cũ
+        return [
+            {
+                "id": str(j.id), # Ép kiểu sang chuỗi để tránh lỗi với code cũ nếu có
+                "title": j.title,
+                "company": j.company,
+                "location": j.location,
+                "salary": j.salary,
+                "short_desc": j.short_desc,
+                "full_jd": j.full_jd,
+                "contact_email": j.contact_email,
+                "quantity": j.quantity
+            } for j in jobs_orm
+        ]

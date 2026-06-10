@@ -19,7 +19,7 @@ cấu hình file .env ( tự tạo file có nội dung như sau):
 DB_URL="mysql+pymysql://root:@localhost:3306/ai_job_search"
 GEMINI_API_KEY="API của mọi người"
 
-sau đó chạy lệnh này để tạo các bảng
+sau đó chạy lệnh này để tạo các bảnggit
 python create_db.py
 
 ĐỂ chạy project thì chạy như sau: streamlit run app.py
