@@ -249,7 +249,8 @@ def render_dashboard():
                     st.error(error)
 
     elif menu_selection == "🤖 AI Tìm việc & Soạn CV":
-        st.title("🤖 Trợ lý AI (CrewAI)")
+        st.title("🤖 Trợ lý AI — Tạo CV chuyên nghiệp")
+        st.write("AI sẽ viết lại nội dung CV của bạn cho chuyên nghiệp hơn, dựa trên hồ sơ cá nhân và mô tả công việc (JD) bạn đang ứng tuyển.")
 
         job_context = st.session_state.get("selected_job", None)
 
@@ -262,11 +263,56 @@ def render_dashboard():
         if job_context:
             jd_default = job_context.get("full_jd") or job_context.get("short_desc") or ""
 
-        jd_input = st.text_area("Dán Mô tả công việc (JD) vào đây:", value=jd_default, height=250)
+        jd_input = st.text_area(
+            "📋 Dán Mô tả công việc (JD) vào đây:",
+            value=jd_default,
+            height=200,
+            placeholder="Dán nội dung JD công việc bạn muốn ứng tuyển để AI tối ưu CV phù hợp nhất..."
+        )
 
-        if st.button("Kích hoạt Biệt đội AI 🚀", type="primary"):
-            st.warning("Đang kết nối với CrewAI... (Phần này chúng ta sẽ code ở bước tiếp theo)")
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            ai_cv_btn = st.button("🚀 Tạo CV bằng AI", type="primary", use_container_width=True)
+        with col_btn2:
+            raw_cv_btn = st.button("📝 Tạo CV từ hồ sơ (không AI)", use_container_width=True)
+
+        # === XỬ LÝ TẠO CV ===
+        if ai_cv_btn or raw_cv_btn:
+            use_ai = ai_cv_btn  # True nếu bấm nút AI, False nếu bấm nút thường
+
+            if use_ai and not jd_input.strip():
+                st.warning("⚠️ Vui lòng dán Mô tả công việc (JD) để AI có thể tối ưu CV cho bạn!")
+            else:
+                from services.cv_service import generate_cv
+
+                with st.spinner("🧠 Đang xây dựng CV..." if not use_ai else "🧠 AI đang phân tích và viết CV chuyên nghiệp..."):
+                    html_cv, error = generate_cv(user_id, jd_text=jd_input, use_ai=use_ai)
+
+                if error:
+                    st.error(f"❌ {error}")
+                else:
+                    st.session_state["generated_cv_html"] = html_cv
+                    st.success("🎉 Tạo CV thành công!")
+
+        # === HIỂN THỊ KẾT QUẢ CV ===
+        cv_html = st.session_state.get("generated_cv_html", None)
+        if cv_html:
+            st.divider()
+            st.markdown("### 📄 CV của bạn")
+
+            # Nút tải về
+            st.download_button(
+                label="⬇️ Tải CV (HTML)",
+                data=cv_html,
+                file_name="CV_AI_Generated.html",
+                mime="text/html",
+                use_container_width=True,
+            )
+
+            # Xem trước CV trong iframe
+            st.components.v1.html(cv_html, height=900, scrolling=True)
 
     elif menu_selection == "📁 Lịch sử tài liệu":
         st.title("📁 Kho lưu trữ cá nhân")
         st.info("Danh sách CV và Cover Letter bạn đã tạo sẽ xuất hiện ở đây.")
+
