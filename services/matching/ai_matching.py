@@ -35,6 +35,12 @@ class AiMatchingStrategy(IMatchingStrategy):
         if not filtered_jobs:
             return [], "Không có công việc nào phù hợp với bộ lọc để phân tích."
 
+        # Kiểm tra quota trước khi gọi AI
+        from services.ai_quota_service import check_match_quota, increment_match_usage
+        allowed, quota_error, _ = check_match_quota(user_id)
+        if not allowed:
+            return [], quota_error
+
         # Bước 2: Đọc Profile ứng viên từ Database
         with db_session() as db:
             _user, profile = get_user_and_profile(db, user_id)
@@ -72,5 +78,8 @@ class AiMatchingStrategy(IMatchingStrategy):
 
         if not merged:
             return [], "Không ghép được kết quả AI với danh sách công việc."
+
+        # Phân tích thành công → Tăng bộ đếm
+        increment_match_usage(user_id)
 
         return merged, None

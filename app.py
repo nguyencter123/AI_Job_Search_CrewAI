@@ -9,6 +9,14 @@ from views.profile_setup_ui import render_profile_setup
 
 st.set_page_config(page_title="AI Job Search Assistant", page_icon="💼", layout="wide")
 
+@st.cache_resource
+def init_scheduler():
+    from services.scheduler import start_scheduler
+    start_scheduler()
+    return True
+
+# Khởi động Scheduler ngầm ngay khi load app
+init_scheduler()
 
 def main():
     if "user_id" not in st.session_state:

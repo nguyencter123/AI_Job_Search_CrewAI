@@ -71,6 +71,12 @@ def rank_user_jobs_against_list(user_id: int, filtered_jobs: list) -> tuple[list
     if not filtered_jobs:
         return None, "Không có công việc nào để phân tích."
 
+    # Kiểm tra quota trước khi gọi AI
+    from services.ai_quota_service import check_match_quota, increment_match_usage
+    allowed, quota_error, _ = check_match_quota(user_id)
+    if not allowed:
+        return None, quota_error
+
     with db_session() as db:
         _user, profile = get_user_and_profile(db, user_id)
 
@@ -90,5 +96,8 @@ def rank_user_jobs_against_list(user_id: int, filtered_jobs: list) -> tuple[list
     merged = merge_ai_ranking_into_jobs(filtered_jobs, ranked_data)
     if not merged:
         return None, "Không ghép được kết quả AI với danh sách công việc (kiểm tra id job)."
+
+    # Phân tích thành công → Tăng bộ đếm
+    increment_match_usage(user_id)
 
     return merged, None

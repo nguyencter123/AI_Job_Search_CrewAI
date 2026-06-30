@@ -6,13 +6,12 @@ Sử dụng:
     auth = AuthFactory.create("email")
     result = auth.login(email="a@b.com", password="123")
     
-    auth = AuthFactory.create("facebook")
-    result = auth.login(code="abc123")
+    auth = AuthFactory.create("phone")
+    result = auth.login(phone="0901234567", password="123")
 """
 from services.auth.base import IAuthStrategy
 from services.auth.email_auth import EmailAuth
 from services.auth.phone_auth import PhoneAuth
-from services.auth.facebook_auth import FacebookAuth
 
 
 class AuthFactory:
@@ -27,7 +26,6 @@ class AuthFactory:
     _strategies: dict[str, type[IAuthStrategy]] = {
         "email": EmailAuth,
         "phone": PhoneAuth,
-        "facebook": FacebookAuth,
     }
 
     @staticmethod

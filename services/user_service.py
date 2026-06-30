@@ -12,10 +12,14 @@ from repositories.user_repo import (
     get_user_and_profile,
     create_user as _repo_create_user,
     update_user_profile as _repo_update_profile,
+    update_user_contact as _repo_update_contact,
     update_user_avatar as _repo_update_avatar,
     get_user_avatar as _repo_get_avatar,
     is_profile_complete as _repo_is_profile_complete,
     update_employer_profile as _repo_update_employer_profile,
+    update_receive_email as _repo_update_receive_email,
+    update_receive_telegram as _repo_update_receive_telegram,
+    update_telegram_chat_id as _repo_update_telegram_chat_id,
     EmployerProfile
 )
 from services.auth_service import verify_password
@@ -29,7 +33,7 @@ def login(method: str = "email", **kwargs) -> tuple[int | None, str | None, str 
     Xác thực đăng nhập thông qua Factory Pattern.
     
     Args:
-        method: Phương thức đăng nhập ("email", "phone", "facebook").
+        method: Phương thức đăng nhập ("email", "phone").
         **kwargs: Các tham số tương ứng (email/password, phone/password, code).
     Returns:
         Tuple (user_id, role, error).
@@ -44,7 +48,7 @@ def register(method: str = "email", **kwargs) -> tuple[int | None, str | None, s
     Đăng ký tài khoản mới thông qua Factory Pattern.
     
     Args:
-        method: Phương thức đăng ký ("email", "phone", "facebook").
+        method: Phương thức đăng ký ("email", "phone").
         **kwargs: Các tham số tương ứng.
     Returns:
         Tuple (user_id, role, error).
@@ -65,17 +69,37 @@ def get_user_info(user_id: int) -> dict | None:
             return None
         return {
             "user_id": user.id,
-            "email": user.email,
+            "email": user.email or "",
+            "phone_number": user.phone_number or "",
             "role": user.role,
             "display_name": (
-                profile.full_name if profile and profile.full_name else user.email
+                profile.full_name if profile and profile.full_name else (user.email or user.phone_number or "User")
             ),
             "skills": (profile.skills if profile else "") or "",
             "experience_summary": (
                 profile.experience_summary if profile else ""
             ) or "",
             "has_avatar": bool(profile and profile.avatar_data),
+            "receive_daily_email": profile.receive_daily_email if profile else False,
+            "receive_daily_telegram": profile.receive_daily_telegram if profile else False,
+            "telegram_chat_id": profile.telegram_chat_id if profile else "",
         }
+
+
+def toggle_receive_email(user_id: int, receive: bool) -> bool:
+    """Bật/tắt nhận email thông báo."""
+    with db_session() as db:
+        return _repo_update_receive_email(db, user_id, receive)
+
+def toggle_receive_telegram(user_id: int, receive: bool) -> bool:
+    """Bật/tắt nhận Telegram thông báo."""
+    with db_session() as db:
+        return _repo_update_receive_telegram(db, user_id, receive)
+
+def set_telegram_chat_id(user_id: int, chat_id: str) -> bool:
+    """Cập nhật Telegram Chat ID."""
+    with db_session() as db:
+        return _repo_update_telegram_chat_id(db, user_id, chat_id)
 
 
 def update_profile(
@@ -90,6 +114,23 @@ def update_profile(
         if result:
             return True, None
     return False, "Không tìm thấy hồ sơ để cập nhật."
+
+
+def update_contact(
+    user_id: int, email: str, phone: str
+) -> tuple[bool, str | None]:
+    """Cập nhật thông tin liên hệ (email, SĐT) cho user.
+    
+    Cho phép mọi tài khoản bổ sung đầy đủ email và SĐT,
+    bất kể ban đầu đăng ký bằng phương thức nào.
+    """
+    with db_session() as db:
+        result, error = _repo_update_contact(db, user_id, email, phone)
+        if error:
+            return False, error
+        if result:
+            return True, None
+    return False, "Không tìm thấy tài khoản để cập nhật."
 
 
 def check_profile_complete(user_id: int) -> bool:

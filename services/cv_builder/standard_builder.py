@@ -217,10 +217,10 @@ class StandardCVBuilder(ICVBuilder):
     def build_objective(self, objective_text: str):
         """Xây phần Mục tiêu Nghề nghiệp."""
         if not objective_text or not objective_text.strip():
-            return
-        
-        paragraphs = objective_text.strip().split("\n")
-        content = "".join(f"<p>{p.strip()}</p>" for p in paragraphs if p.strip())
+            content = "<p><em>Đang cập nhật...</em></p>"
+        else:
+            paragraphs = objective_text.strip().split("\n")
+            content = "".join(f"<p>{p.strip()}</p>" for p in paragraphs if p.strip())
         
         self._html_parts.append(f"""
         <div class="section">
@@ -233,23 +233,24 @@ class StandardCVBuilder(ICVBuilder):
     def build_skills(self, skills_text: str):
         """Xây phần Kỹ năng dạng bullet points 2 cột."""
         if not skills_text or not skills_text.strip():
-            return
-        
-        # Tách kỹ năng bằng dấu phẩy, xuống dòng, hoặc dấu chấm phẩy
-        raw_skills = re.split(r'[,\n;•\-]+', skills_text)
-        skills = [s.strip() for s in raw_skills if s.strip()]
-        
-        if not skills:
-            return
-        
-        items_html = ""
-        for skill in skills:
-            items_html += f"""
-            <div class="skill-item">
-                <div class="skill-bullet"></div>
-                <span>{skill}</span>
-            </div>
-            """
+            items_html = '<div class="skill-item"><div class="skill-bullet"></div><span><em>Đang cập nhật...</em></span></div>'
+        else:
+            # Tách kỹ năng bằng XUỐNG DÒNG hoặc dấu chấm phẩy (KHÔNG tách bằng dấu phẩy)
+            # Ví dụ: "biết sử dụng python, C#, C++" → giữ nguyên 1 dòng
+            raw_skills = re.split(r'[\n;•]+', skills_text)
+            skills = [s.strip() for s in raw_skills if s.strip()]
+            
+            if not skills:
+                skills = ["Đang cập nhật..."]
+            
+            items_html = ""
+            for skill in skills:
+                items_html += f"""
+                <div class="skill-item">
+                    <div class="skill-bullet"></div>
+                    <span>{skill}</span>
+                </div>
+                """
         
         self._html_parts.append(f"""
         <div class="section">
@@ -262,25 +263,25 @@ class StandardCVBuilder(ICVBuilder):
     def build_experience(self, experience_text: str):
         """Xây phần Kinh nghiệm Làm việc."""
         if not experience_text or not experience_text.strip():
-            return
-        
-        lines = experience_text.strip().split("\n")
-        content_html = ""
-        
-        for line in lines:
-            line = line.strip()
-            if not line:
-                continue
-            # Dòng bắt đầu bằng ## hoặc ** là tiêu đề công việc
-            if line.startswith("##") or line.startswith("**"):
-                clean = line.lstrip("#* ").rstrip("*")
-                content_html += f'<div class="exp-header">{clean}</div>'
-            # Dòng bắt đầu bằng - hoặc • là chi tiết
-            elif line.startswith("-") or line.startswith("•"):
-                clean = line.lstrip("-• ").strip()
-                content_html += f'<div class="exp-detail">• {clean}</div>'
-            else:
-                content_html += f'<div class="exp-detail">{line}</div>'
+            content_html = '<div class="exp-detail"><em>Đang cập nhật...</em></div>'
+        else:
+            lines = experience_text.strip().split("\n")
+            content_html = ""
+            
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+                # Dòng bắt đầu bằng ## hoặc ** là tiêu đề công việc
+                if line.startswith("##") or line.startswith("**"):
+                    clean = line.lstrip("#* ").rstrip("*")
+                    content_html += f'<div class="exp-header">{clean}</div>'
+                # Dòng bắt đầu bằng - hoặc • là chi tiết
+                elif line.startswith("-") or line.startswith("•"):
+                    clean = line.lstrip("-• ").strip()
+                    content_html += f'<div class="exp-detail">• {clean}</div>'
+                else:
+                    content_html += f'<div class="exp-detail">{line}</div>'
         
         self._html_parts.append(f"""
         <div class="section">
@@ -293,23 +294,23 @@ class StandardCVBuilder(ICVBuilder):
     def build_education(self, education_text: str):
         """Xây phần Học vấn."""
         if not education_text or not education_text.strip():
-            return
-        
-        lines = education_text.strip().split("\n")
-        content_html = ""
-        
-        for line in lines:
-            line = line.strip()
-            if not line:
-                continue
-            if line.startswith("##") or line.startswith("**"):
-                clean = line.lstrip("#* ").rstrip("*")
-                content_html += f'<div class="exp-header">{clean}</div>'
-            elif line.startswith("-") or line.startswith("•"):
-                clean = line.lstrip("-• ").strip()
-                content_html += f'<div class="exp-detail">• {clean}</div>'
-            else:
-                content_html += f'<div class="exp-detail">{line}</div>'
+            content_html = '<div class="exp-detail"><em>Đang cập nhật...</em></div>'
+        else:
+            lines = education_text.strip().split("\n")
+            content_html = ""
+            
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+                if line.startswith("##") or line.startswith("**"):
+                    clean = line.lstrip("#* ").rstrip("*")
+                    content_html += f'<div class="exp-header">{clean}</div>'
+                elif line.startswith("-") or line.startswith("•"):
+                    clean = line.lstrip("-• ").strip()
+                    content_html += f'<div class="exp-detail">• {clean}</div>'
+                else:
+                    content_html += f'<div class="exp-detail">{line}</div>'
         
         self._html_parts.append(f"""
         <div class="section">

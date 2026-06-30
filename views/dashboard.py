@@ -42,22 +42,16 @@ def render_job_list():
 
     st.divider()
 
-    # === TẠO CONTEXT VÀ GẮN STRATEGY TÙY THEO LỰA CHỌN CỦA NGƯỜI DÙNG ===
     if "AI" in search_mode:
-        # Người dùng chọn AI → Gắn AiMatchingStrategy vào Engine
         engine = JobSearchEngine(AiMatchingStrategy())
     else:
-        # Người dùng chọn Tìm nhanh → Gắn BasicMatchingStrategy vào Engine
         engine = JobSearchEngine(BasicMatchingStrategy())
 
-    # === CHẾ ĐỘ TÌM NHANH: Tự động chạy ngay ===
     if "Tìm nhanh" in search_mode:
         display_jobs, _ = engine.search(user_id, all_jobs, search_kw, search_loc, search_salary)
         st.caption(f"Đang hiển thị {len(display_jobs)}/{len(all_jobs)} công việc")
-        # Xóa kết quả AI cũ nếu có
         st.session_state.pop("ai_sorted_jobs", None)
 
-    # === CHẾ ĐỘ AI: Cần bấm nút để chạy ===
     else:
         analyze_btn = st.button("✨ Bắt đầu phân tích bằng AI", type="primary", use_container_width=True)
         loading_placeholder = st.empty()
@@ -67,7 +61,6 @@ def render_job_list():
                 with st.spinner(
                     "🧠 AI đang đọc hồ sơ và chấm điểm hàng loạt công việc... Vui lòng không thao tác gì thêm!"
                 ):
-                    # Engine ủy thác cho AiMatchingStrategy
                     ai_results, error = engine.search(user_id, all_jobs, search_kw, search_loc, search_salary)
 
                     if error:
@@ -80,7 +73,6 @@ def render_job_list():
 
         display_jobs = st.session_state.get("ai_sorted_jobs", None)
         if display_jobs is None:
-            # Chưa chạy AI → hiện danh sách lọc cơ bản tạm thời
             basic_engine = JobSearchEngine(BasicMatchingStrategy())
             display_jobs, _ = basic_engine.search(user_id, all_jobs, search_kw, search_loc, search_salary)
         
@@ -178,11 +170,42 @@ def render_dashboard():
     with st.sidebar:
         st.markdown("<h2 style='text-align: center;'>💼 AI Job Hub</h2>", unsafe_allow_html=True)
         st.markdown(f"<p style='text-align: center;'>Xin chào, <b>{display_name}</b></p>", unsafe_allow_html=True)
+
+        # --- HIỂN THỊ QUOTA AI / HUY HIỆU PRO ---
+        from services.ai_quota_service import get_user_quota
+        quota = get_user_quota(user_id)
+        if quota:
+            if quota["is_pro"]:
+                expiry = quota.get("pro_expiry_date", "")
+                expiry_text = f"<p style='text-align: center; font-size: 12px; color: #92400e; margin: 2px 0 0 0;'>Hết hạn: {expiry}</p>" if expiry else ""
+                st.markdown(
+                    "<div style='text-align: center; background: linear-gradient(135deg, #f59e0b, #d97706); "
+                    "color: white; padding: 8px; border-radius: 8px; font-weight: 700; margin: 5px 0;'>"
+                    "👑 PRO MEMBER</div>"
+                    + expiry_text,
+                    unsafe_allow_html=True
+                )
+            else:
+                cv_remain = max(0, quota['cv_limit'] - quota['cv_used'])
+                match_remain = max(0, quota['match_limit'] - quota['match_used'])
+                st.markdown(
+                    f"<div style='text-align: center; background-color: #f1f5f9; "
+                    f"padding: 8px; border-radius: 8px; margin: 5px 0; font-size: 13px;'>"
+                    f"🤖 AI CV: <b>{cv_remain}/{quota['cv_limit']}</b> lượt &nbsp;|&nbsp; "
+                    f"🔍 AI Match: <b>{match_remain}/{quota['match_limit']}</b> lượt</div>",
+                    unsafe_allow_html=True
+                )
+
         st.divider()
+
+        menu_items = ["🏠 Trang chủ", "👤 Hồ sơ cá nhân", "🤖 AI Tìm việc & Soạn CV", "📁 Lịch sử tài liệu"]
+        # Chỉ hiện tab Nâng cấp cho tài khoản Free
+        if quota and not quota["is_pro"]:
+            menu_items.append("⭐ Nâng cấp Pro")
 
         menu_selection = st.radio(
             "📍 Điều hướng",
-            ["🏠 Trang chủ", "👤 Hồ sơ cá nhân", "🤖 AI Tìm việc & Soạn CV", "📁 Lịch sử tài liệu"],
+            menu_items,
             label_visibility="collapsed",
         )
 
@@ -201,7 +224,7 @@ def render_dashboard():
         st.write("Thông tin này sẽ là 'nguyên liệu' để AI viết CV cho bạn.")
 
         # --- ẢNH ĐẠI DIỆN ---
-        from services.user_service import upload_avatar, get_avatar
+        from services.user_service import upload_avatar, get_avatar, update_contact
 
         st.markdown("#### 📷 Ảnh đại diện")
         avatar_data, avatar_mime = get_avatar(user_id)
@@ -229,7 +252,74 @@ def render_dashboard():
 
         st.divider()
 
+        # --- THÔNG TIN LIÊN HỆ (Email + SĐT) ---
+        st.markdown("#### 📞 Thông tin liên hệ")
+        with st.form("update_contact_form"):
+            new_email = st.text_input(
+                "📧 Email",
+                value=user_info.get("email", ""),
+                placeholder="Nhập email liên hệ...",
+            )
+            new_phone = st.text_input(
+                "📱 Số điện thoại",
+                value=user_info.get("phone_number", ""),
+                placeholder="Nhập số điện thoại liên hệ...",
+            )
+            
+            if st.form_submit_button("💾 Lưu thông tin liên hệ"):
+                success, error = update_contact(user_id, new_email.strip(), new_phone.strip())
+                if success:
+                    st.success("Đã cập nhật thông tin liên hệ!")
+                    st.rerun()
+                else:
+                    st.error(error)
+
+        st.divider()
+
+        # --- CÀI ĐẶT THÔNG BÁO ---
+        st.markdown("#### 🔔 Cài đặt thông báo")
+        from services.user_service import toggle_receive_email, toggle_receive_telegram, set_telegram_chat_id
+        
+        col_email, col_tele = st.columns(2)
+        with col_email:
+            st.markdown("##### 📧 Qua Email")
+            current_status = user_info.get("receive_daily_email", False)
+            new_status = st.toggle("Nhận email việc làm hàng ngày", value=current_status)
+            
+            if new_status != current_status:
+                if toggle_receive_email(user_id, new_status):
+                    st.success("Đã cập nhật!")
+                    st.rerun()
+
+        with col_tele:
+            st.markdown("##### ✈️ Qua Telegram (Bot)")
+            
+            # Toggle cho Telegram
+            current_tele_status = user_info.get("receive_daily_telegram", False)
+            new_tele_status = st.toggle("Nhận Telegram việc làm hàng ngày", value=current_tele_status)
+            if new_tele_status != current_tele_status:
+                if toggle_receive_telegram(user_id, new_tele_status):
+                    st.success("Đã cập nhật trạng thái Telegram!")
+                    st.rerun()
+            
+            st.caption("Bấm [@userinfobot](https://t.me/userinfobot) rồi ấn Start để lấy ID của bạn.")
+            
+            with st.form("update_telegram_form"):
+                current_tele_id = user_info.get("telegram_chat_id", "")
+                new_tele_id = st.text_input(
+                    "Telegram Chat ID",
+                    value=current_tele_id,
+                    placeholder="VD: 123456789"
+                )
+                if st.form_submit_button("Lưu ID"):
+                    if set_telegram_chat_id(user_id, new_tele_id.strip()):
+                        st.success("Đã cập nhật Telegram ID!")
+                        st.rerun()
+
+        st.divider()
+
         # --- KỸ NĂNG & KINH NGHIỆM ---
+        st.markdown("#### 💼 Kỹ năng & Kinh nghiệm")
         with st.form("update_profile_form"):
             new_skills = st.text_area(
                 "Kỹ năng hiện tại",
@@ -241,7 +331,7 @@ def render_dashboard():
                 height=200,
             )
 
-            if st.form_submit_button("Cập nhật thay đổi"):
+            if st.form_submit_button("💾 Cập nhật kỹ năng & kinh nghiệm"):
                 success, error = update_profile(user_id, new_skills, new_exp)
                 if success:
                     st.success("Đã cập nhật hồ sơ thành công!")
@@ -286,7 +376,8 @@ def render_dashboard():
                 from services.cv_service import generate_cv
 
                 with st.spinner("🧠 Đang xây dựng CV..." if not use_ai else "🧠 AI đang phân tích và viết CV chuyên nghiệp..."):
-                    html_cv, error = generate_cv(user_id, jd_text=jd_input, use_ai=use_ai)
+                    job_id = job_context.get("id") if job_context else 0
+                    html_cv, error = generate_cv(user_id, jd_text=jd_input, use_ai=use_ai, job_id=job_id)
 
                 if error:
                     st.error(f"❌ {error}")
@@ -300,19 +391,182 @@ def render_dashboard():
             st.divider()
             st.markdown("### 📄 CV của bạn")
 
+            # Hướng dẫn lưu PDF
+            st.info("💡 **Mẹo lưu PDF:** Tải file HTML bên dưới, mở bằng trình duyệt Chrome/Edge và nhấn **Ctrl + P** (chọn 'Save as PDF' / 'Lưu dưới dạng PDF'). Mẫu CV đã được tối ưu chuẩn khổ giấy A4!")
+
             # Nút tải về
             st.download_button(
-                label="⬇️ Tải CV (HTML)",
+                label="⬇️ Tải CV (Định dạng HTML)",
                 data=cv_html,
                 file_name="CV_AI_Generated.html",
                 mime="text/html",
                 use_container_width=True,
             )
 
-            # Xem trước CV trong iframe
-            st.components.v1.html(cv_html, height=900, scrolling=True)
+            # Render HTML trực tiếp lên UI để xem trước
+            import streamlit.components.v1 as components
+            with st.container(border=True):
+                components.html(cv_html, height=800, scrolling=True)
 
+    elif menu_selection == "⭐ Nâng cấp Pro":
+        st.title("⭐ Nâng cấp tài khoản Pro")
+        st.write("Mở khóa toàn bộ sức mạnh AI — Tạo CV và Phân tích công việc **không giới hạn** mỗi ngày!")
+
+        # ========== BƯỚC 1: CHỌN GÓI ==========
+        st.markdown("### 📋 Bước 1: Chọn gói Pro")
+        from services.ai_quota_service import PRO_PLANS
+
+        plan_cols = st.columns(len(PRO_PLANS))
+        for i, plan in enumerate(PRO_PLANS):
+            with plan_cols[i]:
+                # Gói 1 năm có viền nổi bật hơn (Best value)
+                if plan["months"] == 12:
+                    border_style = "border: 2px solid #f59e0b;"
+                    badge = "<span style='background: #f59e0b; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;'>Tiết kiệm nhất</span><br>"
+                else:
+                    border_style = "border: 1px solid #e2e8f0;"
+                    badge = ""
+
+                st.markdown(
+                    f"<div style='background: #f8fafc; padding: 20px; border-radius: 12px; {border_style} text-align: center;'>"
+                    f"{badge}"
+                    f"<h4 style='margin-top: 5px;'>📦 {plan['name']}</h4>"
+                    f"<p style='font-size: 26px; font-weight: 700; color: #d97706;'>{plan['price']:,} VNĐ</p>"
+                    f"<p style='color: #64748b; font-size: 13px;'>≈ {plan['price'] // plan['months']:,} VNĐ/tháng</p>"
+                    "</div>",
+                    unsafe_allow_html=True
+                )
+
+        plan_labels = [f"📦 {p['name']} — {p['price']:,} VNĐ" for p in PRO_PLANS]
+        selected_plan_label = st.radio(
+            "Chọn gói",
+            plan_labels,
+            horizontal=True,
+            label_visibility="collapsed",
+        )
+        selected_plan = PRO_PLANS[plan_labels.index(selected_plan_label)]
+
+        st.divider()
+
+        # ========== BƯỚC 2: CHỌN PHƯƠNG THỨC THANH TOÁN (Strategy Pattern) ==========
+        st.markdown("### 💳 Bước 2: Chọn phương thức thanh toán")
+        from services.payment.payment_context import PaymentContext
+
+        available = PaymentContext.get_available_methods()
+        method_labels = [f"{m['icon']} {m['name']}" for m in available]
+        method_keys = [m['key'] for m in available]
+
+        selected_method_label = st.radio(
+            "Chọn cổng thanh toán",
+            method_labels,
+            horizontal=True,
+            label_visibility="collapsed"
+        )
+        selected_key = method_keys[method_labels.index(selected_method_label)]
+
+        # Hiển thị thông tin thanh toán từ Strategy
+        amount = selected_plan["price"]
+        context = PaymentContext(selected_key)
+        payment_info = context.get_payment_info(amount)
+
+        with st.container(border=True):
+            st.markdown(f"#### {payment_info['icon']} Thanh toán qua {payment_info['name']}")
+            st.markdown(f"**Gói đã chọn:** 📦 {selected_plan['name']}  •  **Số tiền:** `{amount:,} VNĐ`")
+            st.markdown("---")
+            
+            # Chia 2 cột: 1 bên hiển thị mã QR, 1 bên hướng dẫn
+            col_qr, col_inst = st.columns([1.5, 2])
+            with col_qr:
+                import qrcode
+                from io import BytesIO
+                
+                # Tạo mã QR từ qr_data của Strategy
+                qr = qrcode.QRCode(box_size=8, border=2)
+                qr.add_data(payment_info["qr_data"])
+                qr.make(fit=True)
+                
+                # Tô màu QR code theo màu đặc trưng của từng ví
+                fill_color = payment_info.get("color", "black")
+                img = qr.make_image(fill_color=fill_color, back_color="white")
+                
+                buf = BytesIO()
+                img.save(buf, format="PNG")
+                st.image(buf.getvalue(), caption=f"Mã QR {payment_info['name']}", use_container_width=True)
+                
+            with col_inst:
+                st.markdown("**Hướng dẫn chuyển khoản:**")
+                for step in payment_info["instructions"]:
+                    st.markdown(step)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        if st.button("✅ Tôi đã thanh toán — Nâng cấp ngay!", type="primary", use_container_width=True):
+            result = context.confirm_payment(amount)
+            if result.success:
+                from services.ai_quota_service import upgrade_to_pro
+                success, error = upgrade_to_pro(user_id, months=selected_plan["months"])
+                if success:
+                    st.success(result.message)
+                    st.balloons()
+                    import time
+                    time.sleep(2)
+                    st.rerun()
+                else:
+                    st.warning(error)
+            else:
+                st.error(result.message)
     elif menu_selection == "📁 Lịch sử tài liệu":
         st.title("📁 Kho lưu trữ cá nhân")
         st.info("Danh sách CV và Cover Letter bạn đã tạo sẽ xuất hiện ở đây.")
+        
+        from repositories.database import db_session
+        from repositories.models import ApplicationDocument, Job
+        from repositories.user_repo import get_user_and_profile
+        import base64
+        
+        with db_session() as db:
+            docs = db.query(ApplicationDocument).filter(ApplicationDocument.user_id == user_id).order_by(ApplicationDocument.created_at.desc()).all()
+            
+            # Lấy ảnh đại diện để "vá" vào CV
+            _, profile = get_user_and_profile(db, user_id)
+            avatar_b64 = ""
+            if profile and profile.avatar_data:
+                avatar_b64 = base64.b64encode(profile.avatar_data).decode("utf-8")
+            
+            if not docs:
+                st.write("Bạn chưa tạo CV nào. Hãy dùng tính năng **AI Tìm việc & Soạn CV** để tạo ngay nhé!")
+            else:
+                st.write(f"Bạn có tổng cộng **{len(docs)}** tài liệu đã tạo.")
+                st.divider()
+                
+                for idx, doc in enumerate(docs):
+                    # Lấy tên công việc nếu có
+                    job_title = "Vị trí Tự do"
+                    if doc.job_id:
+                        job = db.query(Job).filter(Job.id == doc.job_id).first()
+                        if job:
+                            job_title = f"{job.title} ({job.company})"
+                    
+                    created_date = doc.created_at.strftime("%d/%m/%Y %H:%M")
+                    
+                    # Khôi phục ảnh đại diện thật từ Placeholder
+                    full_cv_html = doc.cv_content.replace("[[AVATAR_PLACEHOLDER]]", avatar_b64)
+                    
+                    with st.expander(f"📄 CV cho: {job_title} - {created_date}"):
+                        col_view, col_dl = st.columns(2)
+                        with col_dl:
+                            st.download_button(
+                                label="⬇️ Tải file HTML",
+                                data=full_cv_html,
+                                file_name=f"CV_{job_title.replace(' ', '_')}_{idx}.html",
+                                mime="text/html",
+                                use_container_width=True,
+                                key=f"dl_btn_{doc.id}"
+                            )
+                        with col_view:
+                            if st.button("👀 Xem trước CV này", use_container_width=True, key=f"view_btn_{doc.id}"):
+                                st.session_state[f"view_doc_{doc.id}"] = True
+                                
+                        if st.session_state.get(f"view_doc_{doc.id}", False):
+                            st.components.v1.html(full_cv_html, height=800, scrolling=True)
 

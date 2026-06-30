@@ -1,7 +1,7 @@
 # File: services/auth/base.py
 """
 Interface (Khuôn mẫu) cho Factory Design Pattern.
-Mọi phương thức xác thực (Email, Phone, Facebook) đều PHẢI kế thừa IAuthStrategy
+Mọi phương thức xác thực (Email, Phone, ...) đều PHẢI kế thừa IAuthStrategy
 và triển khai đầy đủ các phương thức login() và register().
 """
 from abc import ABC, abstractmethod
@@ -25,8 +25,7 @@ class AuthResult:
 class IAuthStrategy(ABC):
     """Abstract Base Class: Hợp đồng bắt buộc cho mọi chiến lược xác thực.
     
-    Bất kỳ class nào kế thừa IAuthStrategy mà KHÔNG viết hàm login() 
-    hoặc register() sẽ bị Python báo lỗi TypeError ngay khi khởi tạo.
+    
     """
 
     @abstractmethod

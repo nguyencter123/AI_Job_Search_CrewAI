@@ -1,5 +1,5 @@
 # File: repositories/models.py
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Float, Enum, ForeignKey, LargeBinary
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Float, Enum, ForeignKey, LargeBinary, Date
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from .database import Base 
@@ -15,6 +15,11 @@ class User(Base):
     auth_provider = Column(Enum('email', 'phone', 'facebook'), default='email')
     role = Column(Enum('user', 'admin', 'job_poster'), default='user')
     is_active = Column(Boolean, default=True)
+    is_pro = Column(Boolean, default=False)                    # Tài khoản Pro (không giới hạn AI)
+    pro_expiry_date = Column(Date, nullable=True)              # Ngày hết hạn gói Pro (None = chưa mua)
+    cv_ai_usage_count = Column(Integer, default=0)             # Số lần tạo CV bằng AI hôm nay
+    match_ai_usage_count = Column(Integer, default=0)          # Số lần dùng AI phân tích Job hôm nay
+    last_usage_reset = Column(Date, server_default=func.current_date())  # Ngày reset bộ đếm
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     # Thiết lập mối quan hệ với các bảng khác để dễ gọi dữ liệu sau này
@@ -35,6 +40,8 @@ class UserProfile(Base):
     avatar_data = Column(LargeBinary(length=2 * 1024 * 1024))  # Ảnh đại diện (tối đa 2MB)
     avatar_mimetype = Column(String(50))  # Loại ảnh: image/jpeg, image/png
     receive_daily_email = Column(Boolean, default=True)
+    receive_daily_telegram = Column(Boolean, default=False)
+    telegram_chat_id = Column(String(50), nullable=True)
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     user = relationship("User", back_populates="profile")

@@ -107,6 +107,34 @@ def update_user_profile(db: Session, user_id: int, skills: str, experience: str)
     return None
 
 
+def update_user_contact(db: Session, user_id: int, email: str, phone: str):
+    """Cập nhật email và số điện thoại cho User.
+    
+    Cho phép mọi tài khoản (dù tạo bằng Email, Phone hay Facebook)
+    đều có thể bổ sung đầy đủ thông tin liên hệ.
+    """
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        return None, "Không tìm thấy tài khoản."
+    
+    # Kiểm tra email trùng (nếu có thay đổi)
+    if email and email != user.email:
+        existing = db.query(User).filter(User.email == email, User.id != user_id).first()
+        if existing:
+            return None, "Email này đã được sử dụng bởi tài khoản khác."
+    
+    # Kiểm tra SĐT trùng (nếu có thay đổi)
+    if phone and phone != user.phone_number:
+        existing = db.query(User).filter(User.phone_number == phone, User.id != user_id).first()
+        if existing:
+            return None, "Số điện thoại này đã được sử dụng bởi tài khoản khác."
+    
+    user.email = email if email else user.email
+    user.phone_number = phone if phone else user.phone_number
+    db.commit()
+    return user, None
+
+
 def update_user_avatar(db: Session, user_id: int, avatar_bytes: bytes, mimetype: str):
     """Cập nhật ảnh đại diện cho Profile."""
     profile = db.query(UserProfile).filter(UserProfile.user_id == user_id).first()
@@ -151,3 +179,61 @@ def update_employer_profile(db: Session, user_id: int, company_name: str, descri
         db.commit()
         return profile
     return None
+
+
+def get_users_for_notification(db: Session):
+    """Lấy danh sách user đủ điều kiện nhận email hoặc telegram thông báo.
+    
+    Điều kiện:
+    - Nhận email (receive_daily_email = True) HOẶC có telegram (telegram_chat_id != None)
+    - Đã điền kỹ năng (skills không rỗng)
+    
+    Returns: list of (User, UserProfile) tuples
+    """
+    from sqlalchemy import or_, and_
+    results = (
+        db.query(User, UserProfile)
+        .join(UserProfile, User.id == UserProfile.user_id)
+        .filter(
+            or_(
+                UserProfile.receive_daily_email == True,
+                and_(
+                    UserProfile.receive_daily_telegram == True,
+                    UserProfile.telegram_chat_id.isnot(None)
+                )
+            ),
+            UserProfile.skills.isnot(None),
+            UserProfile.skills != "",
+            User.is_active == True,
+        )
+        .all()
+    )
+    return results
+
+
+def update_receive_email(db: Session, user_id: int, receive: bool):
+    """Bật/tắt nhận email thông báo việc làm cho user."""
+    profile = db.query(UserProfile).filter(UserProfile.user_id == user_id).first()
+    if profile:
+        profile.receive_daily_email = receive
+        db.commit()
+        return True
+    return False
+
+def update_receive_telegram(db: Session, user_id: int, receive: bool):
+    """Bật/tắt nhận Telegram thông báo cho user."""
+    profile = db.query(UserProfile).filter(UserProfile.user_id == user_id).first()
+    if profile:
+        profile.receive_daily_telegram = receive
+        db.commit()
+        return True
+    return False
+
+def update_telegram_chat_id(db: Session, user_id: int, chat_id: str):
+    """Cập nhật Telegram Chat ID cho user."""
+    profile = db.query(UserProfile).filter(UserProfile.user_id == user_id).first()
+    if profile:
+        profile.telegram_chat_id = chat_id if chat_id else None
+        db.commit()
+        return True
+    return False

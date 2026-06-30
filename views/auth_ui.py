@@ -2,7 +2,6 @@
 import streamlit as st
 
 from services.user_service import login, register
-from services.auth.facebook_auth import FacebookAuth
 
 
 def apply_custom_css():
@@ -88,45 +87,7 @@ def apply_custom_css():
             transform: translateY(0);
         }
         
-        /* Nút Facebook */
-        .fb-btn {
-            display: inline-block;
-            background-color: #1877F2;
-            color: white !important;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            text-align: center;
-            width: 100%;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-        .fb-btn:hover {
-            background-color: #166FE5;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            color: white !important;
-        }
-        
-        /* Đường kẻ phân cách "HOẶC" */
-        .divider-or {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 20px 0;
-            color: #94a3b8;
-            font-weight: 600;
-        }
-        .divider-or::before, .divider-or::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .divider-or::before { margin-right: 15px; }
-        .divider-or::after { margin-left: 15px; }
+
         
         /* Làm cho giao diện tổng thể sạch sẽ hơn */
         #MainMenu, footer {visibility: hidden;}
@@ -134,41 +95,8 @@ def apply_custom_css():
     """, unsafe_allow_html=True)
 
 
-def _handle_facebook_callback():
-    """Kiểm tra và xử lý Facebook OAuth callback (code trên URL).
-    
-    Streamlit chạy lại script nhiều lần, nên ta phải:
-    1. Lưu code vào session_state ngay lập tức.
-    2. Xóa code khỏi URL (tránh bị đọc lại).
-    3. Xử lý code từ session_state ở lần chạy tiếp theo.
-    """
-    # Bước 1: Bắt code từ URL và lưu vào session
-    fb_code_from_url = st.query_params.get("code")
-    if fb_code_from_url and "fb_code_saved" not in st.session_state:
-        st.session_state["fb_code_saved"] = fb_code_from_url
-        st.query_params.clear()
-        st.rerun()  # Rerun sạch URL, code đã an toàn trong session
-        return
-    
-    # Bước 2: Xử lý code đã lưu trong session (chỉ chạy 1 lần duy nhất)
-    saved_code = st.session_state.pop("fb_code_saved", None)
-    if saved_code:
-        with st.spinner("🔵 Đang xác thực với Facebook..."):
-            user_id, role, error = login(method="facebook", code=saved_code)
-        
-        if error:
-            st.error(f"❌ {error}")
-        else:
-            st.session_state["user_id"] = user_id
-            st.session_state["role"] = role
-            st.rerun()
-
-
 def render_auth_page():
     apply_custom_css()
-    
-    # Xử lý Facebook callback nếu có
-    _handle_facebook_callback()
     
     st.markdown("<h1>🚀 Hệ thống Hỗ trợ Ứng tuyển AI</h1>", unsafe_allow_html=True)
     st.markdown("<p style='margin-bottom: 40px;'>Vui lòng đăng nhập hoặc tạo tài khoản để tiếp tục trải nghiệm.</p>", unsafe_allow_html=True)
@@ -216,15 +144,7 @@ def render_auth_page():
                         st.session_state["user_id"] = user_id
                         st.session_state["role"] = role
                         st.rerun()
-            
-            # --- NÚT ĐĂNG NHẬP FACEBOOK ---
-            st.markdown("<div class='divider-or'>HOẶC</div>", unsafe_allow_html=True)
-            
-            fb_login_url = FacebookAuth.get_login_url()
-            st.markdown(
-                f"<a href='{fb_login_url}' class='fb-btn' target='_self'>🔵 Tiếp tục với Facebook</a>",
-                unsafe_allow_html=True
-            )
+
 
         with tab2:
             st.markdown("<h3 style='text-align: center; color: #0f172a; margin-top: 20px;'>Tạo tài khoản mới</h3>", unsafe_allow_html=True)
@@ -293,12 +213,3 @@ def render_auth_page():
                         st.session_state["user_id"] = user_id
                         st.session_state["role"] = role
                         st.rerun()
-            
-            # --- NÚT ĐĂNG KÝ FACEBOOK ---
-            st.markdown("<div class='divider-or'>HOẶC</div>", unsafe_allow_html=True)
-            
-            fb_login_url = FacebookAuth.get_login_url()
-            st.markdown(
-                f"<a href='{fb_login_url}' class='fb-btn' target='_self'>🔵 Đăng ký với Facebook</a>",
-                unsafe_allow_html=True
-            )

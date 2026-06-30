@@ -1,17 +1,6 @@
 # File: services/cv_builder/director.py
 """
-Director (Đốc công) cho Builder Design Pattern.
-
-CVDirector là "người điều phối" biết CHÍNH XÁC thứ tự xây dựng CV.
-Nó ra lệnh cho Builder xây từng phần theo trình tự đúng.
-
-Đây là thành phần ĐẶC TRƯNG giúp phân biệt Builder Pattern với các Pattern khác:
-- Factory Pattern có Factory (nhà máy)
-- Strategy Pattern có Context (ngữ cảnh)  
-- Builder Pattern có Director (đốc công)
-
-Director KHÔNG biết chi tiết xây như thế nào (màu gì, font gì).
-Nó chỉ biết THỨ TỰ: Header → Mục tiêu → Kỹ năng → Kinh nghiệm → Học vấn.
+THỨ TỰ: Header → Mục tiêu → Kỹ năng → Kinh nghiệm → Học vấn.
 """
 from services.cv_builder.base import ICVBuilder
 

@@ -22,15 +22,24 @@ from services.cv_builder.director import CVDirector
 load_dotenv()
 
 
+# Model dự phòng khi model chính bị 429 (quota free tier)
+_FALLBACK_MODELS = (
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+)
+
+
+def _is_quota_error(exc: Exception) -> bool:
+    """Kiểm tra xem lỗi có phải do hết quota không."""
+    msg = str(exc).lower()
+    return "429" in str(exc) or "quota" in msg or "rate" in msg or "resource_exhausted" in msg
+
+
 def _generate_cv_content_with_ai(skills: str, experience: str, jd_text: str) -> tuple[dict | None, str | None]:
     """Gọi AI Gemini để viết nội dung CV chuyên nghiệp.
     
-    AI sẽ dựa vào kỹ năng, kinh nghiệm của ứng viên + JD công việc
-    để viết ra các phần: Mục tiêu, Kỹ năng, Kinh nghiệm, Học vấn.
-    
-    Returns:
-        (dict_nội_dung, None) khi thành công
-        (None, thông_báo_lỗi) khi thất bại
+    Tự động thử nhiều model dự phòng khi model chính bị hết quota.
     """
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key or api_key == "Điền_Key_Của_Bạn_Vào_Đây":
@@ -64,28 +73,39 @@ LƯU Ý:
 - Kỹ năng phải liệt kê dạng ngắn gọn (VD: "Python, React, Docker, Quản lý dự án").
 """
 
-    try:
-        model = genai.GenerativeModel("gemini-2.5-flash")
-        response = model.generate_content(prompt)
-        raw = (response.text or "").strip()
-        
-        # Xóa code fences nếu có
-        if "```" in raw:
-            import re
-            parts = re.split(r"```(?:json)?\s*", raw, flags=re.IGNORECASE)
-            if len(parts) >= 2:
-                raw = parts[1].split("```", 1)[0].strip()
-        
-        data = json.loads(raw)
-        return data, None
+    import re
+    import time
 
-    except json.JSONDecodeError as e:
-        return None, f"AI trả về dữ liệu không hợp lệ: {e}"
-    except Exception as e:
-        return None, f"Lỗi khi gọi AI: {e}"
+    last_error = None
+    for model_name in _FALLBACK_MODELS:
+        try:
+            model = genai.GenerativeModel(model_name)
+            response = model.generate_content(prompt)
+            raw = (response.text or "").strip()
+            
+            # Xóa code fences nếu có
+            if "```" in raw:
+                parts = re.split(r"```(?:json)?\s*", raw, flags=re.IGNORECASE)
+                if len(parts) >= 2:
+                    raw = parts[1].split("```", 1)[0].strip()
+            
+            data = json.loads(raw)
+            return data, None
+
+        except json.JSONDecodeError as e:
+            return None, f"AI trả về dữ liệu không hợp lệ ({model_name}): {e}"
+        except Exception as e:
+            last_error = e
+            if _is_quota_error(e):
+                # Model này hết quota → thử model tiếp theo
+                time.sleep(2)
+                continue
+            return None, f"Lỗi khi gọi AI ({model_name}): {e}"
+
+    return None, f"Tất cả model AI đều hết quota. Vui lòng thử lại sau vài phút. ({last_error})"
 
 
-def generate_cv(user_id: int, jd_text: str = "", use_ai: bool = True) -> tuple[str | None, str | None]:
+def generate_cv(user_id: int, jd_text: str = "", use_ai: bool = True, job_id: int = 0) -> tuple[str | None, str | None]:
     """Tạo CV hoàn chỉnh cho ứng viên.
     
     Luồng hoạt động:
@@ -125,16 +145,25 @@ def generate_cv(user_id: int, jd_text: str = "", use_ai: bool = True) -> tuple[s
 
     # === Bước 2: Chuẩn bị dữ liệu CV ===
     if use_ai and jd_text.strip():
+        # Kiểm tra quota trước khi gọi AI
+        from services.ai_quota_service import check_cv_quota, increment_cv_usage
+        allowed, quota_error, _ = check_cv_quota(user_id)
+        if not allowed:
+            return None, quota_error
+
         # Gọi AI viết nội dung chuyên nghiệp
         ai_content, error = _generate_cv_content_with_ai(skills, experience, jd_text)
         if error:
             return None, error
+
+        # Tạo CV thành công → Tăng bộ đếm
+        increment_cv_usage(user_id)
         
         cv_data = {
             "full_name": full_name,
             "email": email,
             "phone": phone,
-            "avatar_base64": avatar_base64,
+            "avatar_base64": "[[AVATAR_PLACEHOLDER]]",
             "objective": ai_content.get("objective", ""),
             "skills": ai_content.get("skills", skills),
             "experience": ai_content.get("experience", experience),
@@ -146,7 +175,7 @@ def generate_cv(user_id: int, jd_text: str = "", use_ai: bool = True) -> tuple[s
             "full_name": full_name,
             "email": email,
             "phone": phone,
-            "avatar_base64": avatar_base64,
+            "avatar_base64": "[[AVATAR_PLACEHOLDER]]",
             "objective": "",
             "skills": skills,
             "experience": experience,
@@ -163,4 +192,18 @@ def generate_cv(user_id: int, jd_text: str = "", use_ai: bool = True) -> tuple[s
     # Director ra lệnh xây CV theo thứ tự
     html_result = director.construct(cv_data)
     
-    return html_result, None
+    # === Bước 4: Lưu vào lịch sử (Database) ===
+    from repositories.models import ApplicationDocument
+    with db_session() as db:
+        doc = ApplicationDocument(
+            user_id=user_id,
+            job_id=job_id,
+            cv_content=html_result,
+            cover_letter_content=""
+        )
+        db.add(doc)
+        db.commit()
+    
+    # Phục hồi lại ảnh thật để trả về cho người dùng xem ngay
+    final_html = html_result.replace("[[AVATAR_PLACEHOLDER]]", avatar_base64)
+    return final_html, None

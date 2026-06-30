@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from services.user_service import get_employer_info
+from services.user_service import get_employer_info, update_employer_info
 from services.employer.job_service import get_employer_jobs, add_new_job, edit_job, remove_job
 
 # --- CSS Tùy chỉnh để làm đẹp thẻ (Card) công việc ---
@@ -120,6 +120,25 @@ def show_delete_confirm_dialog(job, uid):
             else:
                 st.error(err)
 
+@st.dialog("✏️ Cập nhật thông tin Công ty", width="large")
+def show_edit_company_dialog(uid, employer_info):
+    with st.form(key="edit_company_form"):
+        company_name = st.text_input("Tên công ty (*)", value=employer_info.get('company_name', ''))
+        website = st.text_input("Website", value=employer_info.get('website', ''))
+        address = st.text_input("Địa chỉ trụ sở", value=employer_info.get('address', ''))
+        description = st.text_area("Giới thiệu chung", value=employer_info.get('company_description', ''), height=150)
+        
+        if st.form_submit_button("💾 Lưu thay đổi", type="primary", use_container_width=True):
+            if not company_name:
+                st.error("Vui lòng nhập tên công ty!")
+            else:
+                success, err = update_employer_info(uid, company_name, description, website, address)
+                if success:
+                    st.success("Cập nhật hồ sơ thành công!")
+                    st.rerun()
+                else:
+                    st.error(err)
+
 # --- Màn hình chính ---
 
 def render_employer_dashboard():
@@ -236,6 +255,4 @@ def render_employer_dashboard():
             
             st.markdown("<br>", unsafe_allow_html=True)
             if st.button("✏️ Cập nhật thông tin công ty"):
-                # Vì chưa có dialog cho update công ty, ta có thể dẫn họ lại trang setup
-                # hoặc đơn giản là set lại state. Nhưng hiện tại họ có thể chỉnh sửa ở profile_setup
-                st.info("Để chỉnh sửa, vui lòng liên hệ Admin. (Chức năng tự cập nhật sẽ sớm ra mắt!)")
+                show_edit_company_dialog(uid, employer_info)
